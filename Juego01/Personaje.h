@@ -2,7 +2,6 @@
 #include <SFML/Graphics.hpp>
 #include "Colisionable.h"
 #include "Obstaculo.h"
-#include "Plataformas.h"
 
 enum ESTADOS_PERSONAJE {
 	QUIETO,

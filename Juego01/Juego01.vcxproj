@@ -139,7 +139,6 @@
     <ClCompile Include="Nivel.cpp" />
     <ClCompile Include="Obstaculo.cpp" />
     <ClCompile Include="Personaje.cpp" />
-    <ClCompile Include="Plataformas.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Colisionable.h" />
@@ -148,7 +147,6 @@
     <ClInclude Include="Nivel.h" />
     <ClInclude Include="Obstaculo.h" />
     <ClInclude Include="Personaje.h" />
-    <ClInclude Include="Plataformas.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
