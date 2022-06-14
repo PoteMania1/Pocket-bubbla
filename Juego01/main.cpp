@@ -26,9 +26,8 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                 window.close();
-            }
         }
 
         // CMD - Joy
@@ -48,7 +47,7 @@ int main()
 
         // Draw
      
-       window.draw(game);
+        window.draw(game);
         window.display();
         //window.draw(Fruti);
         // Display - Flip

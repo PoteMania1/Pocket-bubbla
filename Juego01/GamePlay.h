@@ -12,9 +12,10 @@ private:
 	Personaje p;
 	Item it;
 	Nivel Ni;
-	Obstaculo *obst;
+	Obstaculo obst[10];
 	sf::Vector2f posprev;
 	int x;
+	
 
 public:
 	GamePlay();

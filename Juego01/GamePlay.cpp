@@ -7,7 +7,9 @@
 GamePlay::GamePlay()
 {	
 	x = 0;
-	obst = new Obstaculo[10];
+
+	obst[10];
+
 }
 
 void GamePlay::cmd()
