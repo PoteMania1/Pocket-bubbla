@@ -8,14 +8,25 @@ GamePlay::GamePlay()
 {	
 	x = 0;
 
-	obst[10];
-
+	obst.CargarVecObst(obstFinal, 25);
+	obstFinal[0].setPosition(48,365);
+	obstFinal[1].setPosition(77,505);
+	obstFinal[2].setPosition(305,472);
+	obstFinal[3].setPosition(317,344);
+	obstFinal[4].setPosition(520,413);
+	obstFinal[5].setPosition(548,648);
+	obstFinal[6].setPosition(552,252);
 }
 
 void GamePlay::cmd()
 {
 	
 	p.cmd();
+}
+
+sf::Sprite GamePlay::getSprite1()
+{
+	return obstFinal[0];
 }
 
 void GamePlay::update()
@@ -25,12 +36,22 @@ void GamePlay::update()
 	if (p.isColision(it)) {
 		it.respawn();
 	}
-	obst[0].setobst1();
-	if (p.isColision(obst[0]) == true) {
-		std::cout << "j";
-		//posprev = obst.getposition1();
-		//std::cout<<posprev.y<<"---" <<obst.getposition1().x << std::endl;
-		p.respawn(obst[0].getPosition());
+	//obst.setobst1();
+	/*for (int i = 0; i<7; i++) {
+		if (p.isColision(obst) == true) {
+			std::cout << "j";
+			//posprev = obst.getposition1();
+			//std::cout<<posprev.y<<"---" <<obst.getposition1().x << std::endl;
+			p.respawn(obst.getposition1());
+		}
+	}*/
+	for (sf::Sprite ob: obstFinal){
+		if (p.getGlobalBounds().top + p.getGlobalBounds().height > ob.getGlobalBounds().top && p.getvelocidadSalto()<0 && p.getGlobalBounds().intersects(ob.getGlobalBounds())) {
+			p.setPosition(p.getPosition().x, 590 + (p.getGlobalBounds().height - p.getOrigin().y));
+			//ob.respawn(ob)
+			p.respawn(ob.getPosition());
+			//std::cout << "ella";
+		}
 	}
 }
 	
@@ -50,8 +71,8 @@ void GamePlay::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	/*for (int x = 0; x < 4; x++;) {
 		target.draw(obst[xs], states);
 	}*/
-	for (xs = 0; xs < 4; xs++) {
-		xs++;
+	for (xs = 0; xs < 7; xs++) {
+		target.draw(obstFinal[xs], states);
 	}
 	target.draw(p.getsprite(), states);
 	target.draw(it.getsprite(), states);

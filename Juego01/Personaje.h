@@ -20,6 +20,8 @@ private:
 	sf::Texture _texture;
 	sf::Sprite _spriteCORRER;
 	sf::Texture _textureCORRER;
+	sf::Sprite _spriteSALTANDO;
+	sf::Texture _textureSALTANDO;
 	sf::Vector2f _velocity;
 	float _velocidadSalto;
 	ESTADOS_PERSONAJE _estado;

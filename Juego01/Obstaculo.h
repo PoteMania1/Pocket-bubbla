@@ -8,7 +8,7 @@
 	private:
 		
 		sf::Texture _texture1;
-		sf::Sprite _obst1[10];
+		sf::Sprite _obst1;
 		int _frame = 0;
 	public:
 		Obstaculo();
@@ -18,6 +18,8 @@
 		void setobst1();
 		sf::FloatRect getBounds() const override;
 		sf::Vector2f getposition1() const;
+		sf::Sprite getSprite1()const;
+		void CargarVecObst(sf::Sprite*,int);
 	};
 
 
