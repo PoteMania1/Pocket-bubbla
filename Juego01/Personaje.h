@@ -10,7 +10,8 @@ enum ESTADOS_PERSONAJE {
 	SALTANDO,
 	SALTOIZQ,
 	SALTODER,
-	ABAJO
+	ABAJO,
+	ATAQUE
 };
 
 class Personaje: public sf::Drawable, public colisionable, public sf::Transformable
@@ -22,6 +23,8 @@ private:
 	sf::Texture _textureCORRER;
 	sf::Sprite _spriteSALTANDO;
 	sf::Texture _textureSALTANDO;
+	sf::Sprite _spriteATAQUE;
+	sf::Texture _textureATAQUE;
 	sf::Vector2f _velocity;
 	float _velocidadSalto;
 	ESTADOS_PERSONAJE _estado;

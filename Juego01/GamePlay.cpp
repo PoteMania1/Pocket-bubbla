@@ -33,9 +33,24 @@ void GamePlay::update()
 {
 	p.update();
 	it.update();
+	enemy.update();
+	if (p.isColision(enemy)) {
+		std::cout << "chocaste" << std::endl;
+		p.setPosition(300, 600);
+	}
 	if (p.isColision(it)) {
 		it.respawn();
+		
 	}
+	/*for (Enemigo wargreymon : enemy) { ///MUCHOS WARGREYMONES
+		wargreymon.update();
+	}*/
+	/*for (Enemigo wargreymon : enemy) {            ///MUCHOS WARGREYMONES
+		if (p.isColision(wargreymon)) {
+			std::cout << "chocaste" << std::endl;
+			p.setPosition(300, 600);
+		}
+	}*/
 	//obst.setobst1();
 	/*for (int i = 0; i<7; i++) {
 		if (p.isColision(obst) == true) {
@@ -66,7 +81,7 @@ int GamePlay::getx()
 }
 
 void GamePlay::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-	int xs=0;
+	int xs=0, xe=0;
 	target.draw(Ni.getfondo(), states);
 	/*for (int x = 0; x < 4; x++;) {
 		target.draw(obst[xs], states);
@@ -76,9 +91,11 @@ void GamePlay::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	}
 	target.draw(p.getsprite(), states);
 	target.draw(it.getsprite(), states);
-
-
-
+	target.draw(enemy.getsprite(), states);
+	
+	/*for (Enemigo wargreymon : enemy) {		///MUCHOS WARGREYMONES
+		target.draw(wargreymon.getsprite(), states);
+	}*/
 }
 
 

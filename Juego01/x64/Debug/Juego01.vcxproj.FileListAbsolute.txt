@@ -3,3 +3,4 @@ C:\Users\erikv\Desktop\Juego01\x64\Debug\Juego01.exe
 C:\Users\Usuario1\Desktop\Desktop\Juego01\x64\Debug\Juego01.exe
 C:\Users\Usuario1\Desktop\Juego01\Juego01\x64\Debug\Juego01.exe
 C:\Users\Usuario1\Desktop\Pocket-bubbla\Juego01\x64\Debug\Juego01.exe
+C:\Users\erikv\Documents\GitHub\Pocket-bubbla\Juego01\x64\Debug\Juego01.exe

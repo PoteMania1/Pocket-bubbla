@@ -19,6 +19,11 @@ Personaje::Personaje() {
 	_sprite.setPosition(300, 600);
 	_velocidadSalto = 0;
 	_estado = ESTADOS_PERSONAJE::QUIETO;
+
+	_textureATAQUE.loadFromFile("Assets/Personaje/Ash-Ataque.png");
+	_spriteATAQUE.setTexture(_textureSALTANDO);
+	_spriteATAQUE.setTextureRect({ 0,0,42,37 });
+	_spriteATAQUE.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 }
 
 
@@ -34,9 +39,10 @@ void Personaje::cmd()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			_estado = ESTADOS_PERSONAJE::IZQUIERDA;
 		}
-		/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			_estado = ESTADOS_PERSONAJE::ABAJO;
-		}*/
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+			_estado = ESTADOS_PERSONAJE::ATAQUE;
+		}
+		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 			_estado = ESTADOS_PERSONAJE::DERECHA;
 		}
@@ -119,6 +125,20 @@ void Personaje::update() {
 		_velocidadSalto += 3;
 		_estado = ESTADOS_PERSONAJE::QUIETO;
 		break;
+	case ATAQUE:
+		_frame += 0.14;
+		_velocidadSalto -= 3;
+		if (_frame >= 8) {
+			_frame = 0;
+		}
+		_sprite.setTexture(_textureATAQUE);
+		_sprite.setTextureRect({ 0 + int(_frame) * 44,0,44,37 });
+		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
+		_sprite.move(0, -_velocidadSalto);
+		_velocidadSalto += 3;
+		break;
+	
+	
 	}
 
 	//_velocidadSalto -= 1;

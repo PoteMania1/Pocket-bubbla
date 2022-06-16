@@ -4,6 +4,7 @@
 #include "Item.h"
 #include "Nivel.h"
 #include "Obstaculo.h"
+#include "Enemigo.h"
 
 
 class GamePlay : public sf::Drawable
@@ -16,7 +17,8 @@ private:
 	sf::Sprite obstFinal[25];
 	sf::Vector2f posprev;
 	int x;
-	
+	Enemigo enemy;
+	//Enemigo enemy[5];   ///MUCHOS WARGREYMONES
 
 public:
 	GamePlay();
