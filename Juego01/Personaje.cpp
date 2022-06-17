@@ -12,14 +12,15 @@ Personaje::Personaje() {
 	_spriteCORRER.setTexture(_textureCORRER);
 	_spriteCORRER.setTextureRect({ 0,0,42,37 });
 	_spriteCORRER.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
-	_textureSALTANDO.loadFromFile("Assets/Personaje/Ash.png");
+	_textureSALTANDO.loadFromFile("Assets/Personaje/Ash-Salto-38x422.png");
 	_spriteSALTANDO.setTexture(_textureSALTANDO);
 	_spriteSALTANDO.setTextureRect({ 0,0,42,37 });
 	_spriteSALTANDO.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 	_sprite.setPosition(300, 600);
 	_velocidadSalto = 0;
 	_estado = ESTADOS_PERSONAJE::QUIETO;
-
+	_vida = 100;
+	_puntos = 0;
 	_textureATAQUE.loadFromFile("Assets/Personaje/Ash-Ataque.png");
 	_spriteATAQUE.setTexture(_textureSALTANDO);
 	_spriteATAQUE.setTextureRect({ 0,0,42,37 });
@@ -31,6 +32,11 @@ void Personaje::cmd()
 {
 	//comandos del personaje
 	if (_estado == ESTADOS_PERSONAJE::QUIETO) {
+
+		if (_vida <= 0) {
+			_sprite.setPosition(10, 600);
+			//std::cout << "Puntos: " << _puntos << std::endl;
+		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 			_estado = ESTADOS_PERSONAJE::SALTANDO;
@@ -67,7 +73,7 @@ void Personaje::update() {
 		//NEW
 	case QUIETO:
 		_frame += 0.14;
-		_velocidadSalto -= 3;
+		_velocidadSalto -= 5;
 		if (_frame >= 4) {
 			_frame = 0;
 		}
@@ -75,17 +81,31 @@ void Personaje::update() {
 		_sprite.setTextureRect({ 0 + int(_frame) * 30,0,30,41 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.move(0, -_velocidadSalto);
-		_velocidadSalto += 3;
+		_velocidadSalto += 5;
 		break;
 	case SALTANDO:
 		_velocidadSalto -= 1;
 		_sprite.move(0, -_velocidadSalto);
+		_frame += 0.080;
+		if (_frame >= 4) {
+			_frame = 0;
+		}
+		_sprite.setTexture(_textureSALTANDO);
+		_sprite.setTextureRect({ 0 + int(_frame) * 38,0,38,42 });
+		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		break;
 	case SALTOIZQ:
 		_velocidadSalto -= 1;
 		_sprite.move(-3, -_velocidadSalto);
 		_velocity.x = -1;
 		_sprite.move(_velocity);
+		_frame += 0.080;
+		if (_frame >= 4) {
+			_frame = 0;
+		}
+		_sprite.setTexture(_textureSALTANDO);
+		_sprite.setTextureRect({ 0 + int(_frame) * 38,0,38,42 });
+		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.setScale(-1, 1);
 		break;
 	case SALTODER:
@@ -93,10 +113,17 @@ void Personaje::update() {
 		_sprite.move(3, -_velocidadSalto);
 		_velocity.x = 1;
 		_sprite.move(_velocity);
+		_frame += 0.080;
+		if (_frame >= 4) {
+			_frame = 0;
+		}
+		_sprite.setTexture(_textureSALTANDO);
+		_sprite.setTextureRect({ 0 + int(_frame) * 38,0,38,42 });
+		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.setScale(1, 1);
 		break;
 	case IZQUIERDA:
-		_frame += 0.2;
+		_frame += 0.25;
 		if (_frame >= 8) {
 			_frame = 0;
 		}
@@ -104,10 +131,10 @@ void Personaje::update() {
 		_sprite.setTextureRect({ 0 + int(_frame) * 43,0,42,37 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		//_velocity.x = -3;
-		_velocidadSalto -= 3;
+		_velocidadSalto -= 5;
 		_sprite.move(-3, -_velocidadSalto);
 		_sprite.setScale(-1, 1);
-		_velocidadSalto += 3;
+		_velocidadSalto += 5;
 		_estado = ESTADOS_PERSONAJE::QUIETO;
 		break;
 	case DERECHA:
@@ -119,15 +146,15 @@ void Personaje::update() {
 		_sprite.setTextureRect({ 0 + int(_frame) * 43,0,42,37 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_velocity.x = 3;
-		_velocidadSalto -= 3;
+		_velocidadSalto -= 5;
 		_sprite.move(3, -_velocidadSalto);
 		_sprite.setScale(1, 1);
-		_velocidadSalto += 3;
+		_velocidadSalto += 5;
 		_estado = ESTADOS_PERSONAJE::QUIETO;
 		break;
 	case ATAQUE:
-		_frame += 0.14;
-		_velocidadSalto -= 3;
+		_frame += 0.25;
+		_velocidadSalto -= 5;
 		if (_frame >= 8) {
 			_frame = 0;
 		}
@@ -135,7 +162,7 @@ void Personaje::update() {
 		_sprite.setTextureRect({ 0 + int(_frame) * 44,0,44,37 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.move(0, -_velocidadSalto);
-		_velocidadSalto += 3;
+		_velocidadSalto += 5;
 		break;
 	
 	
@@ -226,6 +253,24 @@ void Personaje::respawn(sf::Vector2f pos)
 float Personaje::getvelocidadSalto()
 {
 	return _velocidadSalto;
+}
+
+void Personaje::pestaniaste()
+{
+	_velocidadSalto = 20;
+	_vida -= 10;
+	std::cout <<"Vida: " << _vida << std::endl;
+	if (_vida == 0) {
+		_puntos = 0;
+		std::cout << "Puntos: " << _puntos << std::endl;
+	}
+}
+
+void Personaje::sumandoando()
+{
+	_puntos += 10;
+	std::cout <<"Puntos: " << _puntos << std::endl;
+	
 }
 
 /*void Personaje::setposition(int x, int y)

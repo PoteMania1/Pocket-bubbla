@@ -36,11 +36,12 @@ void GamePlay::update()
 	enemy.update();
 	if (p.isColision(enemy)) {
 		std::cout << "chocaste" << std::endl;
+		p.pestaniaste();
 		p.setPosition(300, 600);
 	}
 	if (p.isColision(it)) {
 		it.respawn();
-		
+		p.sumandoando();
 	}
 	/*for (Enemigo wargreymon : enemy) { ///MUCHOS WARGREYMONES
 		wargreymon.update();

@@ -26,6 +26,8 @@ private:
 	sf::Sprite _spriteATAQUE;
 	sf::Texture _textureATAQUE;
 	sf::Vector2f _velocity;
+	int _vida;
+	int _puntos;
 	float _velocidadSalto;
 	ESTADOS_PERSONAJE _estado;
 	float _frame;
@@ -53,5 +55,7 @@ public:
 	//void setposition(int,int);
 	void respawn(sf::Vector2f pos);
 	float getvelocidadSalto();
+	void pestaniaste();
+	void sumandoando();
 };
 

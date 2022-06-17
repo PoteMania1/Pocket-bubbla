@@ -6,6 +6,7 @@ class Enemigo : public sf::Drawable, public colisionable
 private:
 	sf::Sprite _sprite;
 	sf::Texture _texture;
+	float _frame;
 public:
 	Enemigo();
 	void update();
