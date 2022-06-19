@@ -62,11 +62,19 @@ void GamePlay::update()
 		}
 	}*/
 	for (sf::Sprite ob: obstFinal){
-		if (p.getGlobalBounds().top + p.getGlobalBounds().height > ob.getGlobalBounds().top && p.getvelocidadSalto()<0 && p.getGlobalBounds().intersects(ob.getGlobalBounds())) {
+		if (//p.getGlobalBounds().top + p.getGlobalBounds().height > ob.getGlobalBounds().top 
+			p.getGlobalBounds().top - p.getPreviousPos()
+			&& p.getvelocidadSalto()<0 
+			&& p.getGlobalBounds().intersects(ob.getGlobalBounds())
+			//&& p.getGlobalBounds().top + p.getGlobalBounds().height - ob.getGlobalBounds().top < 20
+			
+			) 
+			
+		{
+			std::cout << p.getGlobalBounds().top + p.getGlobalBounds().height - ob.getGlobalBounds().top << std::endl;
 			p.setPosition(p.getPosition().x, 590 + (p.getGlobalBounds().height - p.getOrigin().y));
-			//ob.respawn(ob)
 			p.respawn(ob.getPosition());
-			//std::cout << "ella";
+		
 		}
 	}
 }

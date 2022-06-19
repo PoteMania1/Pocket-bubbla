@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="colisionable">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Colisionable.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Enemigo">
+    <Position X="3" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAABAQAAEAAAAAIAAAAAAAAAABQAAAEAgAgEAAA=</HashCode>
+      <FileName>Enemigo.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GamePlay">
+    <Position X="11" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAIAAAQAgAIAAAgAAAAAAACAQEBhAAAEAAI=</HashCode>
+      <FileName>GamePlay.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Item">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAQAAEAAAAAIAAAAEAAAAAAQAAAEAAAAEAAA=</HashCode>
+      <FileName>Item.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Nivel">
+    <Position X="5.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAEABQAAAIAAAAIAAAAAAAAAAAAAAAAAgAAEAAA=</HashCode>
+      <FileName>Nivel.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Obstaculo">
+    <Position X="9.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAACAAAQSAIAAAAAAIAAAgAAAAAEAABAAAAgAAEAAA=</HashCode>
+      <FileName>Obstaculo.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Personaje">
+    <Position X="7.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAgADEACESIAEBSgAAIAACAAgAgAAAQBAAEkgCEEGAA=</HashCode>
+      <FileName>Personaje.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="ESTADOS_PERSONAJE">
+    <Position X="13.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAIAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAABQCSAAAAA=</HashCode>
+      <FileName>Personaje.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

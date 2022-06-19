@@ -1,4 +1,19 @@
 ﻿  GamePlay.cpp
-  main.cpp
+C:\Users\erikv\Documents\GitHub\Pocket-bubbla\Juego01\GamePlay.cpp(66,23): error C2678: '-' binario: no se encontró un operador que adopte un operando en la parte izquierda de tipo 'T' (o bien no existe una conversión aceptable)
+          with
+          [
+              T=float
+          ]
+C:\Users\erikv\Documents\GitHub\Pocket-bubbla\Juego01\SFML\include\SFML\System\Time.hpp(268,22): message : puede ser 'sf::Time sf::operator -(sf::Time,sf::Time)' [se encontró con la búsqueda dependiente de argumentos]
+C:\Users\erikv\Documents\GitHub\Pocket-bubbla\Juego01\SFML\include\SFML\Graphics\Color.hpp(158,25): message : o       'sf::Color sf::operator -(const sf::Color &,const sf::Color &)' [se encontró con la búsqueda dependiente de argumentos]
+C:\Users\erikv\Documents\GitHub\Pocket-bubbla\Juego01\GamePlay.cpp(67,1): message : al hacer coincidir la lista de argumentos '(T, sf::Vector2f)'
+          with
+          [
+              T=float
+          ]
+  Personaje.cpp
+C:\Users\erikv\Documents\GitHub\Pocket-bubbla\Juego01\Personaje.cpp(78,17): warning C4305: '+=': truncamiento de 'double' a 'float'
+C:\Users\erikv\Documents\GitHub\Pocket-bubbla\Juego01\Personaje.cpp(92,18): warning C4305: '+=': truncamiento de 'double' a 'float'
+C:\Users\erikv\Documents\GitHub\Pocket-bubbla\Juego01\Personaje.cpp(105,18): warning C4305: '+=': truncamiento de 'double' a 'float'
+C:\Users\erikv\Documents\GitHub\Pocket-bubbla\Juego01\Personaje.cpp(119,18): warning C4305: '+=': truncamiento de 'double' a 'float'
   Generando código...
-  Juego01.vcxproj -> C:\Users\Usuario1\Desktop\Juego01\x64\Debug\Juego01.exe
