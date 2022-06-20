@@ -11,7 +11,8 @@ enum ESTADOS_PERSONAJE {
 	SALTOIZQ,
 	SALTODER,
 	ABAJO,
-	ATAQUE
+	ATAQUE,
+	CAYENDO
 };
 
 class Personaje: public sf::Drawable, public colisionable, public sf::Transformable
@@ -49,7 +50,7 @@ public:
 	float getposx();
 	void quieto(float, float);
 	sf::Vector2f getPreviousPos();
-	void move(float x, float y);
+	void setEstado(ESTADOS_PERSONAJE);
 	sf::FloatRect getGlobalBounds() const;
 	sf::Vector2f getposition() const;
 	//void setposition(int,int);

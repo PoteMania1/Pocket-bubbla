@@ -5,19 +5,21 @@
 #include "Nivel.h"
 #include "Obstaculo.h"
 #include "Enemigo.h"
-
+#include "Ataque.h"
 
 class GamePlay : public sf::Drawable
 {
 private:
-	Personaje p;
-	Item it;
-	Nivel Ni;
-	Obstaculo obst;
-	sf::Sprite obstFinal[25];
+	Personaje _ash;
+	Item _fruta;
+	Nivel _nivel1;
+	Obstaculo _plataforma;
+	Ataque _hadouken;
+	sf::Sprite _plataformaD[25];
 	sf::Vector2f posprev;
 	int x;
-	Enemigo enemy;
+	Enemigo _enemy;
+	bool _colision;
 	//Enemigo enemy[5];   ///MUCHOS WARGREYMONES
 
 public:

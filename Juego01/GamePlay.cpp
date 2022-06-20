@@ -5,43 +5,45 @@
 //void colisiones();
 
 GamePlay::GamePlay()
-{	
+{
 	x = 0;
-
-	obst.CargarVecObst(obstFinal, 25);
-	obstFinal[0].setPosition(48,365);
-	obstFinal[1].setPosition(77,505);
-	obstFinal[2].setPosition(305,472);
-	obstFinal[3].setPosition(317,344);
-	obstFinal[4].setPosition(520,413);
-	obstFinal[5].setPosition(548,648);
-	obstFinal[6].setPosition(552,252);
+	_colision = false;
+	_plataforma.CargarVecObst(_plataformaD, 25);
+	_plataformaD[0].setPosition(48, 365);
+	_plataformaD[1].setPosition(77, 505);
+	_plataformaD[2].setPosition(305, 472);
+	_plataformaD[3].setPosition(317, 344);
+	_plataformaD[4].setPosition(520, 413);
+	_plataformaD[5].setPosition(548, 648);
+	_plataformaD[6].setPosition(552, 252);
 }
 
 void GamePlay::cmd()
 {
-	
-	p.cmd();
+	_hadouken.cmd();
+	_ash.cmd();
 }
 
 sf::Sprite GamePlay::getSprite1()
 {
-	return obstFinal[0];
+	return _plataformaD[0];
 }
 
 void GamePlay::update()
 {
-	p.update();
-	it.update();
-	enemy.update();
-	if (p.isColision(enemy)) {
+	_colision = false;
+	_hadouken.update();
+	_ash.update();
+	_fruta.update();
+	_enemy.update();
+	if (_ash.isColision(_enemy)) {
 		std::cout << "chocaste" << std::endl;
-		p.pestaniaste();
-		p.setPosition(300, 600);
+		_ash.pestaniaste();
+		_ash.setPosition(300, 600);
 	}
-	if (p.isColision(it)) {
-		it.respawn();
-		p.sumandoando();
+	if (_ash.isColision(_fruta)) {
+		_fruta.respawn();
+		_ash.sumandoando();
 	}
 	/*for (Enemigo wargreymon : enemy) { ///MUCHOS WARGREYMONES
 		wargreymon.update();
@@ -61,24 +63,32 @@ void GamePlay::update()
 			p.respawn(obst.getposition1());
 		}
 	}*/
-	for (sf::Sprite ob: obstFinal){
-		if (//p.getGlobalBounds().top + p.getGlobalBounds().height > ob.getGlobalBounds().top 
-			p.getGlobalBounds().top - p.getPreviousPos()
-			&& p.getvelocidadSalto()<0 
-			&& p.getGlobalBounds().intersects(ob.getGlobalBounds())
-			//&& p.getGlobalBounds().top + p.getGlobalBounds().height - ob.getGlobalBounds().top < 20
-			
-			) 
-			
+	for (sf::Sprite ob : _plataformaD) {
+		if (_ash.getPreviousPos().y<_ash.getposition().y
+			//&&_ash.getvelocidadSalto() < 0
+			&& _ash.getGlobalBounds().intersects(ob.getGlobalBounds())
+			&& _ash.getGlobalBounds().top + _ash.getGlobalBounds().height - ob.getGlobalBounds().top < 22
+			)
 		{
-			std::cout << p.getGlobalBounds().top + p.getGlobalBounds().height - ob.getGlobalBounds().top << std::endl;
-			p.setPosition(p.getPosition().x, 590 + (p.getGlobalBounds().height - p.getOrigin().y));
-			p.respawn(ob.getPosition());
-		
+			//std::cout << _ash.getGlobalBounds().top + _ash.getGlobalBounds().height - ob.getGlobalBounds().top << std::endl;
+			//std::cout <<_ash.getPreviousPos().y<<"------" << _ash.getposition().y << std::endl;
+			_ash.respawn(ob.getPosition());
+			//_ash.setEstado(QUIETO);
+			_colision = true;
+		}
+		if (_colision == false
+			&& _ash.getGlobalBounds().top + _ash.getGlobalBounds().height < 590
+			&& _ash.getvelocidadSalto()<0) {
+			std::cout <<"cayendo"<< std::endl;
+			_ash.setEstado(CAYENDO);
+		}
+		if (_ash.getGlobalBounds().top + _ash.getGlobalBounds().height > 590) {
+			_colision = true;
+			_ash.setEstado(QUIETO);
 		}
 	}
 }
-	
+
 void GamePlay::setx(int _x)
 {
 	x += _x;
@@ -90,18 +100,21 @@ int GamePlay::getx()
 }
 
 void GamePlay::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-	int xs=0, xe=0;
-	target.draw(Ni.getfondo(), states);
+	int xs = 0, xe = 0;
+	target.draw(_nivel1.getfondo(), states);
 	/*for (int x = 0; x < 4; x++;) {
 		target.draw(obst[xs], states);
 	}*/
 	for (xs = 0; xs < 7; xs++) {
-		target.draw(obstFinal[xs], states);
+		target.draw(_plataformaD[xs], states);
 	}
-	target.draw(p.getsprite(), states);
-	target.draw(it.getsprite(), states);
-	target.draw(enemy.getsprite(), states);
-	
+	target.draw(_ash.getsprite(), states);
+	target.draw(_fruta.getsprite(), states);
+	target.draw(_enemy.getsprite(), states);
+	/*if (ESTADOS_ATAQUE::getestado() == ESTADOS_ATAQUE::ACTIVO) {
+		target.draw(_hadouken.getsprite(), states);
+	}*/
+
 	/*for (Enemigo wargreymon : enemy) {		///MUCHOS WARGREYMONES
 		target.draw(wargreymon.getsprite(), states);
 	}*/

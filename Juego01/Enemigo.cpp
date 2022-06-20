@@ -2,19 +2,15 @@
 
 Enemigo::Enemigo()
 {
-	
 		_texture.loadFromFile("Assets/Enemigo/War-Vuela.png");
 		_sprite.setTexture(_texture);
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
 		_sprite.setTextureRect({ 0,0,66,46 });
 		respawn();
 		_frame = 0;
-	
 }
 
 void Enemigo::update()
-
-
 {	
 	_timeRespawn--;
 
