@@ -8,12 +8,21 @@ Ataque::Ataque()
 	_sprite.setTextureRect({ 0,0,32,32 });
 	_sprite.setPosition(300, 200);
 	_frame = 0;
+	_estados = NOACTIVO;
+	_velocity = { 0,0 };
 }
 
 void Ataque::cmd()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 		_estados = ESTADOS_ATAQUE::ACTIVO;
+		_sprite.setPosition(_p.getPreviousPos());
+		_velocity.x = 1;
+		_sprite.move(_velocity);
+	}
+	else
+	{
+		_estados = ESTADOS_ATAQUE::NOACTIVO;
 	}
 }
 
@@ -51,8 +60,7 @@ sf::Sprite Ataque::getsprite() const
 	return _sprite;
 }
 
-ESTADOS_ATAQUE Ataque::getestado()
+ESTADOS_ATAQUE Ataque::getEstado()
 {
 	return _estados;
-	
 }

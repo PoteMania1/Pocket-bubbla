@@ -9,13 +9,15 @@ GamePlay::GamePlay()
 	x = 0;
 	_colision = false;
 	_plataforma.CargarVecObst(_plataformaD, 25);
-	_plataformaD[0].setPosition(48, 365);
-	_plataformaD[1].setPosition(77, 505);
-	_plataformaD[2].setPosition(305, 472);
-	_plataformaD[3].setPosition(317, 344);
-	_plataformaD[4].setPosition(520, 413);
-	_plataformaD[5].setPosition(548, 648);
-	_plataformaD[6].setPosition(552, 252);
+	_plataformaD[0].setPosition(76, 505);
+	_plataformaD[1].setPosition(304, 471);
+	_plataformaD[2].setPosition(519, 413);
+	_plataformaD[3].setPosition(200, 370);
+	_plataformaD[4].setPosition(48, 265);
+	_plataformaD[5].setPosition(128, 138);
+	_plataformaD[6].setPosition(551, 152);
+	_plataformaD[7].setPosition(336, 244);
+	_plataformaD[8].setPosition(544, 283);
 }
 
 void GamePlay::cmd()
@@ -76,9 +78,13 @@ void GamePlay::update()
 			//_ash.setEstado(QUIETO);
 			_colision = true;
 		}
+
 		if (_colision == false
 			&& _ash.getGlobalBounds().top + _ash.getGlobalBounds().height < 590
-			&& _ash.getvelocidadSalto()<0) {
+			//&& !_ash.getGlobalBounds().intersects(ob.getGlobalBounds())
+			&& _ash.getEstado()!= SALTANDO
+			&& _ash.getEstado() != SALTODER
+			&& _ash.getEstado() != SALTOIZQ) {
 			std::cout <<"cayendo"<< std::endl;
 			_ash.setEstado(CAYENDO);
 		}
@@ -105,15 +111,15 @@ void GamePlay::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	/*for (int x = 0; x < 4; x++;) {
 		target.draw(obst[xs], states);
 	}*/
-	for (xs = 0; xs < 7; xs++) {
+	for (xs = 0; xs < 9; xs++) {
 		target.draw(_plataformaD[xs], states);
 	}
 	target.draw(_ash.getsprite(), states);
 	target.draw(_fruta.getsprite(), states);
 	target.draw(_enemy.getsprite(), states);
-	/*if (ESTADOS_ATAQUE::getestado() == ESTADOS_ATAQUE::ACTIVO) {
+	if (ACTIVO==true) {
 		target.draw(_hadouken.getsprite(), states);
-	}*/
+	}
 
 	/*for (Enemigo wargreymon : enemy) {		///MUCHOS WARGREYMONES
 		target.draw(wargreymon.getsprite(), states);

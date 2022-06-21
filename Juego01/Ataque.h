@@ -6,6 +6,7 @@
 #include "Obstaculo.h"
 
 enum ESTADOS_ATAQUE {
+	NOACTIVO,
 	ACTIVO
 };
 
@@ -16,6 +17,8 @@ private:
 	sf::Texture _texture;
 	float _frame;
 	ESTADOS_ATAQUE _estados;
+	Personaje _p;
+	sf::Vector2f _velocity;
 public:
 	Ataque();
 	void cmd();
@@ -23,7 +26,7 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states)const override;
 	sf::FloatRect getBounds() const override;
 	sf::Sprite getsprite() const;
-	ESTADOS_ATAQUE getestado();
+	ESTADOS_ATAQUE getEstado();
 
 };
 

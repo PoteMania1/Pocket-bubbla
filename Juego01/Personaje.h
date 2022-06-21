@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Colisionable.h"
 #include "Obstaculo.h"
 
@@ -27,12 +28,14 @@ private:
 	sf::Sprite _spriteATAQUE;
 	sf::Texture _textureATAQUE;
 	sf::Vector2f _velocity;
+	sf::SoundBuffer _bufferPASOS;
+	sf::Sound _soundPASOS;
 	int _vida;
 	int _puntos;
 	float _velocidadSalto;
 	ESTADOS_PERSONAJE _estado;
-	float _frame;
 	//NEW
+	float _frame;
 	sf::Vector2f _PreviousPos;
 	//bool _caida;
 	
@@ -50,6 +53,7 @@ public:
 	float getposx();
 	void quieto(float, float);
 	sf::Vector2f getPreviousPos();
+	ESTADOS_PERSONAJE getEstado();
 	void setEstado(ESTADOS_PERSONAJE);
 	sf::FloatRect getGlobalBounds() const;
 	sf::Vector2f getposition() const;
@@ -58,5 +62,6 @@ public:
 	float getvelocidadSalto();
 	void pestaniaste();
 	void sumandoando();
+	void sonidos(ESTADOS_PERSONAJE);
 };
 

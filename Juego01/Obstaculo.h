@@ -8,7 +8,11 @@
 	private:
 		
 		sf::Texture _texture1;
+		sf::Texture _texture2;
+		sf::Texture _texture3;
 		sf::Sprite _obst1;
+		sf::Sprite _obst2;
+		sf::Sprite _obst3;
 		int _frame = 0;
 	public:
 		Obstaculo();
