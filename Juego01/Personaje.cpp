@@ -27,6 +27,7 @@ Personaje::Personaje() {
 	_spriteATAQUE.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 	_bufferPASOS.loadFromFile("Sounds/Ash/Pasos-Corriendo.wav");
 	_soundPASOS.setBuffer(_bufferPASOS);
+	//_poderes.CargarAtaque(_poder, 1);
 }
 
 
@@ -41,7 +42,6 @@ void Personaje::cmd()
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			_estado = ESTADOS_PERSONAJE::IZQUIERDA;
-			_soundPASOS.play();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 			_estado = ESTADOS_PERSONAJE::ATAQUE;
@@ -64,8 +64,9 @@ void Personaje::cmd()
 
 void Personaje::update() {
 
+
 	_PreviousPos = _sprite.getPosition();
-		sonidos(_estado);
+	sonidos(_estado);
 	
 	if (_velocidadSalto < -5) {
 		_velocidadSalto = -5;
@@ -166,6 +167,7 @@ void Personaje::update() {
 		_sprite.setTextureRect({ 0 + int(_frame) * 44,0,44,37 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.move(0, -_velocidadSalto);
+		//_poder[0].setPosition(_sprite.getPosition());
 		//_velocidadSalto += 2;
 		break;
 	case CAYENDO:
@@ -295,11 +297,20 @@ void Personaje::sumandoando()
 void Personaje::sonidos(ESTADOS_PERSONAJE estado)
 {
 	if (estado == DERECHA || estado == IZQUIERDA) {
-		_soundPASOS.play();
+		if (_soundPASOS.getStatus() != sf::SoundSource::Status::Playing) {
+			_soundPASOS.play();
+		}
 	}
+	
 	else {
 		_soundPASOS.stop();
 	}
+}
+
+sf::Vector2f Personaje::cargarPosition()
+{
+	sf::Vector2f pos(getposition());
+	return pos;
 }
 
 /*void Personaje::setposition(int x, int y)

@@ -20,7 +20,9 @@ private:
 	int x;
 	Enemigo _enemy;
 	bool _colision;
+	ESTADOS_PERSONAJE _estadoP;
 	//Enemigo enemy[5];   ///MUCHOS WARGREYMONES
+	sf::Vector2f prepos;
 
 public:
 	GamePlay();
@@ -30,5 +32,6 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states)const override;
 	void setx(int);
 	int getx();
+	void movimientoPlataforma(sf::Sprite &plataforma, sf::Vector2f& preposs);
 };
 

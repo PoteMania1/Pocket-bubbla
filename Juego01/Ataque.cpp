@@ -6,7 +6,6 @@ Ataque::Ataque()
 	_sprite.setTexture(_texture);
 	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
 	_sprite.setTextureRect({ 0,0,32,32 });
-	_sprite.setPosition(300, 200);
 	_frame = 0;
 	_estados = NOACTIVO;
 	_velocity = { 0,0 };
@@ -14,7 +13,7 @@ Ataque::Ataque()
 
 void Ataque::cmd()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 		_estados = ESTADOS_ATAQUE::ACTIVO;
 		_sprite.setPosition(_p.getPreviousPos());
 		_velocity.x = 1;
@@ -23,11 +22,12 @@ void Ataque::cmd()
 	else
 	{
 		_estados = ESTADOS_ATAQUE::NOACTIVO;
-	}
+	}*/
 }
 
 void Ataque::update()
 {
+	_sprite.setPosition(_p.cargarPosition());
 	switch (_estados)
 	{
 		//NEW
@@ -64,3 +64,13 @@ ESTADOS_ATAQUE Ataque::getEstado()
 {
 	return _estados;
 }
+
+sf::Sprite Ataque::setSprite()
+{
+	return _sprite;
+}
+
+/*void Ataque::CargarAtaque(sf::Sprite* poder, int fila)
+{
+	poder[0] = _sprite;
+}*/

@@ -3,6 +3,7 @@
 #include <SFML/Audio.hpp>
 #include "Colisionable.h"
 #include "Obstaculo.h"
+//#include "Ataque.h"
 
 enum ESTADOS_PERSONAJE {
 	QUIETO,
@@ -37,6 +38,8 @@ private:
 	//NEW
 	float _frame;
 	sf::Vector2f _PreviousPos;
+	//Ataque _poderes;
+	//sf::Sprite _poder[1];
 	//bool _caida;
 	
 public:
@@ -63,5 +66,7 @@ public:
 	void pestaniaste();
 	void sumandoando();
 	void sonidos(ESTADOS_PERSONAJE);
+	sf::Vector2f cargarPosition();
+	
 };
 

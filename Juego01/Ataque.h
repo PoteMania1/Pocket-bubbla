@@ -27,6 +27,8 @@ public:
 	sf::FloatRect getBounds() const override;
 	sf::Sprite getsprite() const;
 	ESTADOS_ATAQUE getEstado();
+	sf::Sprite setSprite();
+	//void CargarPosition(sf::Sprite*,int );
 
 };
 

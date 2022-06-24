@@ -2,10 +2,10 @@
 
 Enemigo::Enemigo()
 {
-		_texture.loadFromFile("Assets/Enemigo/War-Vuela.png");
+		_texture.loadFromFile("Assets/Enemigo/Bicho.png");
 		_sprite.setTexture(_texture);
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
-		_sprite.setTextureRect({ 0,0,66,46 });
+		_sprite.setTextureRect({ 0,0,84,63 });
 		respawn();
 		_frame = 0;
 }
@@ -21,11 +21,11 @@ void Enemigo::update()
 	if (_newPosition.x > _sprite.getPosition().x) {
 		_sprite.move(3, 0);
 		_frame += 0.14;
-		if (_frame >= 5) {
+		if (_frame >= 8) {
 			_frame = 0;
 		}
 		_sprite.setTexture(_texture);
-		_sprite.setTextureRect({ 0 + int(_frame) * 66,0,66,46 });
+		_sprite.setTextureRect({ 0 + int(_frame) * 84,0,84,63 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.setScale(1, 1);
 	}
@@ -36,7 +36,7 @@ void Enemigo::update()
 			_frame = 0;
 		}
 		_sprite.setTexture(_texture);
-		_sprite.setTextureRect({ 0 + int(_frame) * 66,0,66,46 });
+		_sprite.setTextureRect({ 0 + int(_frame) * 84,0,84,63 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.setScale(-1, 1);
 	}
@@ -47,7 +47,7 @@ void Enemigo::update()
 			_frame = 0;
 		}
 		_sprite.setTexture(_texture);
-		_sprite.setTextureRect({ 0 + int(_frame) * 66,0,66,46 });
+		_sprite.setTextureRect({ 0 + int(_frame) * 84,0,84,63 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.setScale(1, 1);
 	}
@@ -58,7 +58,7 @@ void Enemigo::update()
 			_frame = 0;
 		}
 		_sprite.setTexture(_texture);
-		_sprite.setTextureRect({ 0 + int(_frame) * 66,0,66,46 });
+		_sprite.setTextureRect({ 0 + int(_frame) * 84,0,84,63 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.setScale(-1, 1);
 	}
