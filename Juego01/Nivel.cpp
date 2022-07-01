@@ -4,8 +4,6 @@ Nivel::Nivel()
 {
 	_texture.loadFromFile("Assets/Nivel/Fondo2.png");
 	_fondo.setTexture(_texture);
-
-	
 }
 
 void Nivel::update()

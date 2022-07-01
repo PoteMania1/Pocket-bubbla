@@ -3,7 +3,8 @@
 #include <SFML/Audio.hpp>
 #include "Colisionable.h"
 #include "Obstaculo.h"
-//#include "Ataque.h"
+#include "Ataque.h"
+#include "GamePlayable.h"
 
 enum ESTADOS_PERSONAJE {
 	QUIETO,
@@ -17,7 +18,7 @@ enum ESTADOS_PERSONAJE {
 	CAYENDO
 };
 
-class Personaje: public sf::Drawable, public colisionable, public sf::Transformable
+class Personaje: public sf::Drawable, public colisionable, public sf::Transformable//, public GamePlayable
 {
 private:
 	sf::Sprite _sprite;
@@ -38,21 +39,19 @@ private:
 	//NEW
 	float _frame;
 	sf::Vector2f _PreviousPos;
-	//Ataque _poderes;
-	//sf::Sprite _poder[1];
-	//bool _caida;
+	float _velAtaque;
+	GamePlayable& _gameplay;
+	unsigned int _cooldown;
 	
 public:
-	Personaje();
+	Personaje(GamePlayable& gameplay);
 	void cmd();
 	void update();
 	void draw(sf::RenderTarget& target, sf::RenderStates states)const override;
 	sf::FloatRect getBounds() const override;
 	sf::Sprite getsprite() const;
-	//void LeerTextura(sf::Sprite);
-	//int getglobaltop();
-	//int getglobal();
 	//NEW
+	int inicio;
 	float getposx();
 	void quieto(float, float);
 	sf::Vector2f getPreviousPos();
@@ -60,13 +59,14 @@ public:
 	void setEstado(ESTADOS_PERSONAJE);
 	sf::FloatRect getGlobalBounds() const;
 	sf::Vector2f getposition() const;
-	//void setposition(int,int);
+	sf::Vector2f getscale();
 	void respawn(sf::Vector2f pos);
 	float getvelocidadSalto();
-	void pestaniaste();
-	void sumandoando();
+	void controladorVida();
+	void sumaPuntos();
 	void sonidos(ESTADOS_PERSONAJE);
 	sf::Vector2f cargarPosition();
-	
+	void disparar(float positionX, float positionY,sf::Vector2f scale);
+	GamePlayable& getCurrentGamePlay();
 };
 

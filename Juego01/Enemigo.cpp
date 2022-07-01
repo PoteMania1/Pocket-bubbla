@@ -71,6 +71,20 @@ void Enemigo::update()
 	if (std::abs(_newPosition.y - _sprite.getPosition().y) < 5) {
 		_sprite.move(0, _newPosition.y - _sprite.getPosition().y);
 	}
+
+	//colisiones bordes
+	if (_sprite.getGlobalBounds().left < 0) {
+		_sprite.setPosition(_sprite.getOrigin().x, _sprite.getPosition().y);
+	}
+	if (_sprite.getGlobalBounds().top < 0) {
+		_sprite.setPosition(_sprite.getPosition().x, _sprite.getOrigin().y);
+	}
+	if (_sprite.getGlobalBounds().left + _sprite.getGlobalBounds().width > 800) {
+		_sprite.setPosition(800 - (_sprite.getGlobalBounds().width - _sprite.getOrigin().x), _sprite.getPosition().y);
+	}
+	if (_sprite.getGlobalBounds().top + _sprite.getGlobalBounds().height > 590) {
+		_sprite.setPosition(_sprite.getPosition().x, 590 + (_sprite.getGlobalBounds().height - _sprite.getOrigin().y));
+	}
 }
 void Enemigo::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {

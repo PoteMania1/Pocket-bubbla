@@ -1,7 +1,7 @@
 #include "Personaje.h"
 #include <iostream>
 
-Personaje::Personaje() {
+Personaje::Personaje(GamePlayable& gameplay)  :_gameplay(gameplay) {
 	_frame = 0;
 	_velocity = { 4,4 };
 	_texture.loadFromFile("Assets/Personaje/Ash-DePie.png");
@@ -27,6 +27,9 @@ Personaje::Personaje() {
 	_spriteATAQUE.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 	_bufferPASOS.loadFromFile("Sounds/Ash/Pasos-Corriendo.wav");
 	_soundPASOS.setBuffer(_bufferPASOS);
+	inicio = 0;
+	_velAtaque = 2;
+	_cooldown = 0;
 	//_poderes.CargarAtaque(_poder, 1);
 }
 
@@ -64,9 +67,12 @@ void Personaje::cmd()
 
 void Personaje::update() {
 
-
+	if (inicio == 0){
+		_velocidadSalto = -5;
+		inicio++;
+	}
 	_PreviousPos = _sprite.getPosition();
-	sonidos(_estado);
+	//sonidos(_estado);
 	
 	if (_velocidadSalto < -5) {
 		_velocidadSalto = -5;
@@ -160,13 +166,18 @@ void Personaje::update() {
 	case ATAQUE:
 		_frame += 0.25;
 		//_velocidadSalto -= 2;
-		if (_frame >= 8) {
+		if (_frame >= 3) {
 			_frame = 0;
 		}
 		_sprite.setTexture(_textureATAQUE);
-		_sprite.setTextureRect({ 0 + int(_frame) * 44,0,44,37 });
+		_sprite.setTextureRect({ (int(_frame)*44)+220,0,44,37 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.move(0, -_velocidadSalto);
+		
+		//std::cout << getscale().x << "--------------------" << getscale().y << "\n";
+		disparar(this->getposition().x+120, this->getposition().y-5,getscale());
+
+
 		//_poder[0].setPosition(_sprite.getPosition());
 		//_velocidadSalto += 2;
 		break;
@@ -205,6 +216,7 @@ void Personaje::update() {
 	} 
 	
 	
+	
 }
 
 //personaje dibujable
@@ -212,7 +224,6 @@ void Personaje::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(_sprite, states);
 }
-
 
 sf::FloatRect Personaje::getBounds() const
 {
@@ -262,10 +273,14 @@ sf::Vector2f Personaje::getposition() const
 	return _sprite.getPosition();
 }
 
+sf::Vector2f Personaje::getscale()
+{
+	return _sprite.getScale();
+}
+
 void Personaje::respawn(sf::Vector2f pos)
 {
 	if(_velocidadSalto < 0){
-		//std::cout << _sprite.getGlobalBounds().top;
 		_estado = ESTADOS_PERSONAJE::QUIETO;
 		_sprite.setPosition(_sprite.getPosition().x, pos.y+5 + (_sprite.getGlobalBounds().height - _sprite.getOrigin().y));
 	}
@@ -276,7 +291,7 @@ float Personaje::getvelocidadSalto()
 	return _velocidadSalto;
 }
 
-void Personaje::pestaniaste()
+void Personaje::controladorVida()
 {
 	_vida -= 1;
 	_sprite.setPosition(10, 600);
@@ -287,7 +302,7 @@ void Personaje::pestaniaste()
 	}
 }
 
-void Personaje::sumandoando()
+void Personaje::sumaPuntos()
 {
 	_puntos += 10;
 	std::cout <<"Puntos: " << _puntos << std::endl;
@@ -309,13 +324,35 @@ void Personaje::sonidos(ESTADOS_PERSONAJE estado)
 
 sf::Vector2f Personaje::cargarPosition()
 {
-	sf::Vector2f pos(getposition());
+	sf::Vector2f pos(this->getposition());
 	return pos;
 }
 
-/*void Personaje::setposition(int x, int y)
-{
-	_sprite.setPosition().x;
-}*/
 
+void Personaje::disparar(float positionX, float positionY,sf::Vector2f scale) {
+
+	bool izq;
+	if (scale.x == -1) {
+		izq = true;
+	}
+	else {
+		izq = false;
+	}
+	getCurrentGamePlay().createBala(positionX,positionY,izq);
+	if (scale.x == -1) {
+		std::cout << "aaa" << " \n";
+		//positionX -= 20;
+		_cooldown = 10;
+	}
+	else{
+		std::cout << "bbb" << " \n";
+		//positionX += 20;
+		_cooldown = 10;
+	}
+}
+
+GamePlayable& Personaje::getCurrentGamePlay()
+{
+	return _gameplay;
+}
 

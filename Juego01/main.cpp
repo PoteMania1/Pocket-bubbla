@@ -12,9 +12,6 @@ int main()
     window.setFramerateLimit(60);
 
     GamePlay game;
-    //Personaje ash;
-    //Item Fruti;
-    //Fruti.respawn();
 
     //Game Loop (update del juego)
     while (window.isOpen())
@@ -48,6 +45,7 @@ int main()
         // Draw
      
         window.draw(game);
+        //ash.draw(window);
         window.display();
         //window.draw(Fruti);
         // Display - Flip

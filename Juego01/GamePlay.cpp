@@ -4,8 +4,16 @@
 
 //void colisiones();
 
-GamePlay::GamePlay()
+GamePlay::GamePlay():
+	_ash(*this)
 {
+	/*for (int i = 0; i<10; i++) {
+		_fruta.CargarVector(&_frutas[i].getsprite(), 10);
+	}*/
+	music.openFromFile("Sounds/Soundtrack-1.wav");
+	_bufferMonedas.loadFromFile("Sounds/Ash/Agarrar-item.wav");
+	_bufferMuerte.loadFromFile("Sounds/Ash/Muere.wav");
+	_bufferPasos.loadFromFile("Sounds/Ash/Pasos.wav");
 	_estadoP = ESTADOS_PERSONAJE::QUIETO;
 	x = 0;
 	_colision = false;
@@ -20,11 +28,13 @@ GamePlay::GamePlay()
 	_plataformaD[7].setPosition(336, 244);
 	_plataformaD[8].setPosition(544, 283);
 	prepos = _plataformaD[7].getPosition();
+	prepos2 = _plataformaD[2].getPosition();
+	aux = 0;
+	borrarATA = 0;
 }
 
 void GamePlay::cmd()
 {
-	_hadouken.cmd();
 	_ash.cmd();
 }
 
@@ -35,21 +45,69 @@ sf::Sprite GamePlay::getSprite1()
 
 void GamePlay::update()
 {
+	if (music.getStatus() != sf::SoundSource::Status::Playing) {
+		music.setVolume(15);
+		music.play();
+	}
 	movimientoPlataforma(_plataformaD[7],prepos);
+	movimientoPlataforma(_plataformaD[2],prepos2);
 	_estadoP = _ash.getEstado();
 	_colision = false;
-	_hadouken.update();
 	_ash.update();
 	_fruta.update();
 	_enemy.update();
+	_enemy2.update();
+	//std::cout << _ash.getscale().x << "\t"<<_ash.getscale().y<<"\n";
+	
+	for (Item& fruta : _frutas) {
+		fruta.update();
+		if(_ash.isColision(fruta)) {
+			fruta.respawn();
+			_ash.sumaPuntos();
+			_sound.setBuffer(_bufferMonedas);
+			sonidos();
+		}
+	}
+	std::list<Ataque>::iterator i = _haduken.begin();
+	while (i != _haduken.end()) {
+		Ataque& a = (*i);
+		//preposATA = a.getPosition();
+		a.update();
+		
+		//borrarATA += a.getPosition().x - preposATA.x;
+		//std::cout << borrarATA << "aaaaaaaa\n";
+		/*if (borrarATA >= 50) {
+			i = _haduken.erase(i);
+			borrarATA = 0;
+		}*/
+		/*else {
+			bool iscolission = false;
+			for (Ataque a: _haduken) {
+				if (a.isColision(_enemy)) {
+					i = _haduken.erase(i);
+					_enemy.respawn();
+					iscolission = true;
+					break;
+				}
+			}
+			if (!iscolission) {
+			}
+		}*/
+				i++;
+	}
+
 	if (_ash.isColision(_enemy)) {
 		std::cout << "chocaste" << std::endl;
-		_ash.pestaniaste();
+		_ash.controladorVida();
 		_ash.setPosition(300, 600);
+		_sound.setBuffer(_bufferMuerte);
+		sonidos();
 	}
 	if (_ash.isColision(_fruta)) {
 		_fruta.respawn();
-		_ash.sumandoando();
+		_ash.sumaPuntos();
+		_sound.setBuffer(_bufferMonedas);
+		sonidos();
 	}
 	/*for (Enemigo wargreymon : _enemy) { ///MUCHOS WARGREYMONES
 		wargreymon.update();
@@ -60,18 +118,10 @@ void GamePlay::update()
 			_ash.setPosition(300, 600);
 		}
 	}*/
-	//obst.setobst1();
-	/*for (int i = 0; i<7; i++) {
-		if (p.isColision(obst) == true) {
-			std::cout << "j";
-			//posprev = obst.getposition1();
-			//std::cout<<posprev.y<<"---" <<obst.getposition1().x << std::endl;
-			p.respawn(obst.getposition1());
-		}
-	}*/
+
+	//setear posicion ash en plataformas
 	for (sf::Sprite ob : _plataformaD) {
 		if (_ash.getPreviousPos().y<_ash.getposition().y
-			//&&_ash.getvelocidadSalto() < 0
 			&& _ash.getGlobalBounds().intersects(ob.getGlobalBounds())
 			&& _ash.getGlobalBounds().top + _ash.getGlobalBounds().height - ob.getGlobalBounds().top < 22
 			)
@@ -79,17 +129,15 @@ void GamePlay::update()
 			//std::cout << _ash.getGlobalBounds().top + _ash.getGlobalBounds().height - ob.getGlobalBounds().top << std::endl;
 			//std::cout <<_ash.getPreviousPos().y<<"------" << _ash.getposition().y << std::endl;
 			_ash.respawn(ob.getPosition());
-			//_ash.setEstado(QUIETO);
 			_colision = true;
 		}
 
+		//setear estado caida
 		if (_colision == false
 			&& _ash.getGlobalBounds().top + _ash.getGlobalBounds().height < 590
-			//&& !_ash.getGlobalBounds().intersects(ob.getGlobalBounds())
 			&& _ash.getEstado() != SALTANDO
 			&& _ash.getEstado() != SALTODER
 			&& _ash.getEstado() != SALTOIZQ) {
-			std::cout <<"cayendo"<< std::endl;
 			_ash.setEstado(CAYENDO);
 		}
 		if (_ash.getGlobalBounds().top + _ash.getGlobalBounds().height > 590) {
@@ -111,21 +159,43 @@ int GamePlay::getx()
 
 void GamePlay::movimientoPlataforma(sf::Sprite &plataforma,sf::Vector2f &prepos)
 {
-	/*sf::Vector2f prepos = {0,0};
-	if(a==0){
-		prepos = plataforma.getPosition();
-		std::cout << prepos.y << std::endl;
-		a++;
-	}*/
 	sf::Vector2f const velocity = { 0,1 };
-	std::cout << prepos.y <<"-----" << prepos.y - plataforma.getPosition().y <<"-----" << plataforma.getPosition().y << std::endl;
-	if (prepos.y - plataforma.getPosition().y <=20) {
+	//std::cout << prepos.y <<"-----" << prepos.y - plataforma.getPosition().y <<"-----" << plataforma.getPosition().y << std::endl;
+	if (prepos.y - plataforma.getPosition().y <80
+		&& aux==0) {
 		plataforma.move(-velocity);
+		if (prepos.y - plataforma.getPosition().y == 80) {
+			aux ++;
+		}
 	}
-	else {
+	if (prepos.y - plataforma.getPosition().y>0
+		&& aux==1) {
 		plataforma.move(velocity);
+		if (prepos.y - plataforma.getPosition().y == 0) {
+			aux = 0;
+		}
 	}
 }
+
+void GamePlay::createBala(float positionX, float positionY,bool izqOder)
+{
+	_dir.setDir(izqOder);
+	_haduken.push_back(Ataque(positionX,positionY));
+}
+
+void GamePlay::sonidos()
+{
+	//_sound.setBuffer(buffer);
+	if (_sound.getStatus() != sf::SoundSource::Status::Playing) {
+			_sound.play();
+			std::cout<<"sonando"<<"\n";
+	}
+
+	else {
+		_sound.stop();
+	}
+}
+
 
 void GamePlay::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	int xs = 0;
@@ -133,15 +203,21 @@ void GamePlay::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	for (xs = 0; xs < 9; xs++) {
 		target.draw(_plataformaD[xs], states);
 	}
+	for (const Ataque& a : _haduken) {
+ 		target.draw(a, states);
+	}
 	target.draw(_ash.getsprite(), states);
+	for (Item fruta : _frutas) {
+		target.draw(fruta, states);
+	}
 	target.draw(_fruta.getsprite(), states);
 	target.draw(_enemy.getsprite(), states);
-	if (_estadoP == ESTADOS_PERSONAJE::ATAQUE) {
-		target.draw(_hadouken.getsprite(), states);
-	}
+	target.draw(_enemy2.getsprite(), states);
 
 
-
+	/*if (_estadoP == ESTADOS_PERSONAJE::ATAQUE) {
+		target.draw(_hadoukenA[0], states);
+	}*/
 	/*for (Enemigo wargreymon : _enemy) {		///MUCHOS WARGREYMONES
 		target.draw(wargreymon.getsprite(), states);
 	}*/

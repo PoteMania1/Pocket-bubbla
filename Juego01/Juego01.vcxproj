@@ -135,7 +135,9 @@
     <ClCompile Include="Ataque.cpp" />
     <ClCompile Include="Colisionable.cpp" />
     <ClCompile Include="Enemigo.cpp" />
+    <ClCompile Include="Enemigo2.cpp" />
     <ClCompile Include="GamePlay.cpp" />
+    <ClCompile Include="GamePlayable.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Nivel.cpp" />
@@ -146,7 +148,9 @@
     <ClInclude Include="Ataque.h" />
     <ClInclude Include="Colisionable.h" />
     <ClInclude Include="Enemigo.h" />
+    <ClInclude Include="Enemigo2.h" />
     <ClInclude Include="GamePlay.h" />
+    <ClInclude Include="GamePlayable.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Nivel.h" />
     <ClInclude Include="Obstaculo.h" />
