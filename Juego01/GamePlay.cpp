@@ -14,8 +14,6 @@ GamePlay::GamePlay():
 	_bufferMonedas.loadFromFile("Sounds/Ash/Agarrar-item.wav");
 	_bufferMuerte.loadFromFile("Sounds/Ash/Muere.wav");
 	_bufferPasos.loadFromFile("Sounds/Ash/Pasos.wav");
-	_estadoP = ESTADOS_PERSONAJE::QUIETO;
-	x = 0;
 	_colision = false;
 	_plataforma.CargarVecObst(_plataformaD, 25);
 	_plataformaD[0].setPosition(76, 505);
@@ -27,10 +25,9 @@ GamePlay::GamePlay():
 	_plataformaD[6].setPosition(551, 152);
 	_plataformaD[7].setPosition(336, 244);
 	_plataformaD[8].setPosition(544, 283);
-	prepos = _plataformaD[7].getPosition();
-	prepos2 = _plataformaD[2].getPosition();
-	aux = 0;
-	borrarATA = 0;
+	_preposPlataform = _plataformaD[7].getPosition();
+	_preposPlataform2 = _plataformaD[2].getPosition();
+	auxMovPlataform = 0;
 }
 
 void GamePlay::cmd()
@@ -49,17 +46,15 @@ void GamePlay::update()
 		music.setVolume(15);
 		music.play();
 	}
-	movimientoPlataforma(_plataformaD[7],prepos);
-	movimientoPlataforma(_plataformaD[2],prepos2);
-	_estadoP = _ash.getEstado();
+	movimientoPlataforma(_plataformaD[7], _preposPlataform);
+	movimientoPlataforma(_plataformaD[2], _preposPlataform2);
 	_colision = false;
 	_ash.update();
 	_fruta.update();
 	_enemy.update();
 	_enemy2.update();
-	//std::cout << _ash.getscale().x << "\t"<<_ash.getscale().y<<"\n";
 	
-	for (Item& fruta : _frutas) {
+	/*for (Item& fruta : _frutas) {
 		fruta.update();
 		if(_ash.isColision(fruta)) {
 			fruta.respawn();
@@ -67,20 +62,19 @@ void GamePlay::update()
 			_sound.setBuffer(_bufferMonedas);
 			sonidos();
 		}
-	}
+	}*/
 	std::list<Ataque>::iterator i = _haduken.begin();
+
 	while (i != _haduken.end()) {
+		
 		Ataque& a = (*i);
-		//preposATA = a.getPosition();
 		a.update();
 		
-		//borrarATA += a.getPosition().x - preposATA.x;
-		//std::cout << borrarATA << "aaaaaaaa\n";
-		/*if (borrarATA >= 50) {
+		if (a.getposition().x < 0|| a.getposition().x > 800) {
 			i = _haduken.erase(i);
-			borrarATA = 0;
-		}*/
-		/*else {
+			std::cout << "borrado" << "\n";
+		}
+		else {
 			bool iscolission = false;
 			for (Ataque a: _haduken) {
 				if (a.isColision(_enemy)) {
@@ -89,11 +83,17 @@ void GamePlay::update()
 					iscolission = true;
 					break;
 				}
+				else if (a.isColision(_enemy2)) {
+					i = _haduken.erase(i);
+					_enemy2.respawn();
+					iscolission = true;
+					break;
+				}
 			}
 			if (!iscolission) {
-			}
-		}*/
 				i++;
+			}
+		}
 	}
 
 	if (_ash.isColision(_enemy)) {
@@ -124,10 +124,8 @@ void GamePlay::update()
 		if (_ash.getPreviousPos().y<_ash.getposition().y
 			&& _ash.getGlobalBounds().intersects(ob.getGlobalBounds())
 			&& _ash.getGlobalBounds().top + _ash.getGlobalBounds().height - ob.getGlobalBounds().top < 22
-			)
-		{
-			//std::cout << _ash.getGlobalBounds().top + _ash.getGlobalBounds().height - ob.getGlobalBounds().top << std::endl;
-			//std::cout <<_ash.getPreviousPos().y<<"------" << _ash.getposition().y << std::endl;
+			){
+
 			_ash.respawn(ob.getPosition());
 			_colision = true;
 		}
@@ -137,24 +135,16 @@ void GamePlay::update()
 			&& _ash.getGlobalBounds().top + _ash.getGlobalBounds().height < 590
 			&& _ash.getEstado() != SALTANDO
 			&& _ash.getEstado() != SALTODER
-			&& _ash.getEstado() != SALTOIZQ) {
+			&& _ash.getEstado() != SALTOIZQ){
+
 			_ash.setEstado(CAYENDO);
 		}
-		if (_ash.getGlobalBounds().top + _ash.getGlobalBounds().height > 590) {
+		if (_ash.getGlobalBounds().top + _ash.getGlobalBounds().height > 590){
+
 			_colision = true;
 			_ash.setEstado(QUIETO);
 		}
 	}
-}
-
-void GamePlay::setx(int _x)
-{
-	x += _x;
-}
-
-int GamePlay::getx()
-{
-	return x;
 }
 
 void GamePlay::movimientoPlataforma(sf::Sprite &plataforma,sf::Vector2f &prepos)
@@ -162,25 +152,29 @@ void GamePlay::movimientoPlataforma(sf::Sprite &plataforma,sf::Vector2f &prepos)
 	sf::Vector2f const velocity = { 0,1 };
 	//std::cout << prepos.y <<"-----" << prepos.y - plataforma.getPosition().y <<"-----" << plataforma.getPosition().y << std::endl;
 	if (prepos.y - plataforma.getPosition().y <80
-		&& aux==0) {
+		&& auxMovPlataform ==0) {
 		plataforma.move(-velocity);
 		if (prepos.y - plataforma.getPosition().y == 80) {
-			aux ++;
+			auxMovPlataform++;
 		}
 	}
 	if (prepos.y - plataforma.getPosition().y>0
-		&& aux==1) {
+		&& auxMovPlataform ==1) {
 		plataforma.move(velocity);
 		if (prepos.y - plataforma.getPosition().y == 0) {
-			aux = 0;
+			auxMovPlataform = 0;
 		}
 	}
 }
 
 void GamePlay::createBala(float positionX, float positionY,bool izqOder)
 {
-	_dir.setDir(izqOder);
-	_haduken.push_back(Ataque(positionX,positionY));
+	if (izqOder) {
+		_haduken.push_back(Ataque(positionX-50,positionY,izqOder));
+	}
+	else {
+		_haduken.push_back(Ataque(positionX, positionY,izqOder));
+	}
 }
 
 void GamePlay::sonidos()
@@ -207,9 +201,9 @@ void GamePlay::draw(sf::RenderTarget& target, sf::RenderStates states) const {
  		target.draw(a, states);
 	}
 	target.draw(_ash.getsprite(), states);
-	for (Item fruta : _frutas) {
+	/*for (Item fruta : _frutas) {
 		target.draw(fruta, states);
-	}
+	}*/
 	target.draw(_fruta.getsprite(), states);
 	target.draw(_enemy.getsprite(), states);
 	target.draw(_enemy2.getsprite(), states);

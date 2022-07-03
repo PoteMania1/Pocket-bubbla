@@ -70,3 +70,8 @@ sf::Sprite Enemigo2::getsprite() const
 {
 	return _sprite;
 }
+
+void Enemigo2::respawn()
+{
+	_sprite.setPosition(std::rand() % 700 + _sprite.getGlobalBounds().width, std::rand() % 500 + _sprite.getGlobalBounds().height);
+}

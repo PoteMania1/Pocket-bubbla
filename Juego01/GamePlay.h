@@ -20,18 +20,12 @@ private:
 	Nivel _nivel1;
 	Obstaculo _plataforma;
 	sf::Sprite _plataformaD[25];
-	sf::Vector2f posprev;
-	int x;
 	Enemigo _enemy;
 	Enemigo2 _enemy2;
 	bool _colision;
-	ESTADOS_PERSONAJE _estadoP;
 	//Enemigo enemy[5];   ///MUCHOS WARGREYMONES
-	sf::Vector2f prepos;
-	sf::Vector2f prepos2;
-	sf::Vector2f preposATA;
-	int borrarATA;
-	sf::Clock clock_ataque;
+	sf::Vector2f _preposPlataform;
+	sf::Vector2f _preposPlataform2;
 	std::list<Ataque> _haduken;
 	std::list<Item> _Frutas;
 	sf::SoundBuffer _bufferMonedas;
@@ -45,14 +39,9 @@ public:
 	sf::Sprite getSprite1();
 	void update();
 	void draw(sf::RenderTarget& target, sf::RenderStates states)const override;
-	void setx(int);
-	int getx();
 	void movimientoPlataforma(sf::Sprite &plataforma, sf::Vector2f& preposs);
-	int aux;
+	int auxMovPlataform;
 	void createBala(float positionX, float positionY, bool izqOder) override;
 	void sonidos();
-	bool DirAtaq;
-	Ataque _dir;
-	
 };
 

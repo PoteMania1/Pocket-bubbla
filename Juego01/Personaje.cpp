@@ -27,8 +27,7 @@ Personaje::Personaje(GamePlayable& gameplay)  :_gameplay(gameplay) {
 	_spriteATAQUE.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 	_bufferPASOS.loadFromFile("Sounds/Ash/Pasos-Corriendo.wav");
 	_soundPASOS.setBuffer(_bufferPASOS);
-	inicio = 0;
-	_velAtaque = 2;
+	inicioJuego = 0;
 	_cooldown = 0;
 	//_poderes.CargarAtaque(_poder, 1);
 }
@@ -67,24 +66,28 @@ void Personaje::cmd()
 
 void Personaje::update() {
 
-	if (inicio == 0){
+	//Aplica gravedad al personaje para que no quede flotando al iniciar el juego
+	if (inicioJuego == 0){
 		_velocidadSalto = -5;
-		inicio++;
+		inicioJuego++;
 	}
+	//Cooldown de ataque, para no spamear
+	if (_cooldown > 0) {
+		_cooldown--;
+	}
+
 	_PreviousPos = _sprite.getPosition();
-	//sonidos(_estado);
 	
 	if (_velocidadSalto < -5) {
 		_velocidadSalto = -5;
 	}
 	//movimiento personaje
-		//_velocity.x = _velocity.y = 0;
 	switch (_estado)
 	{
 		//NEW
 	case QUIETO:
+
 		_frame += 0.14;
-		//_velocidadSalto -= 2;
 		if (_frame >= 4) {
 			_frame = 0;
 		}
@@ -92,9 +95,10 @@ void Personaje::update() {
 		_sprite.setTextureRect({ 0 + int(_frame) * 30,0,30,41 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.move(0, -_velocidadSalto);
-		//_velocidadSalto += 2;
+
 		break;
 	case SALTANDO:
+
 		_velocidadSalto -= 1;
 		_sprite.move(0, -_velocidadSalto);
 		_frame += 0.080;
@@ -104,8 +108,10 @@ void Personaje::update() {
 		_sprite.setTexture(_textureSALTANDO);
 		_sprite.setTextureRect({ 0 + int(_frame) * 38,0,38,42 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
+
 		break;
 	case SALTOIZQ:
+
 		_velocidadSalto -= 1;
 		_sprite.move(-3, -_velocidadSalto);
 		_velocity.x = -1;
@@ -118,8 +124,10 @@ void Personaje::update() {
 		_sprite.setTextureRect({ 0 + int(_frame) * 38,0,38,42 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.setScale(-1, 1);
+
 		break;
 	case SALTODER:
+
 		_velocidadSalto -= 1;
 		_sprite.move(3, -_velocidadSalto);
 		_velocity.x = 1;
@@ -132,8 +140,10 @@ void Personaje::update() {
 		_sprite.setTextureRect({ 0 + int(_frame) * 38,0,38,42 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.setScale(1, 1);
+
 		break;
 	case IZQUIERDA:
+
 		_frame += 0.25;
 		if (_frame >= 8) {
 			_frame = 0;
@@ -141,14 +151,14 @@ void Personaje::update() {
 		_sprite.setTexture(_textureCORRER);
 		_sprite.setTextureRect({ 0 + int(_frame) * 43,0,42,37 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
-		//_velocity.x = -3;
-		//_velocidadSalto -= 2;
-		_sprite.move(-3, -_velocidadSalto);
+		_velocity.x = -3;
+		_sprite.move(_velocity.x, -_velocidadSalto);
 		_sprite.setScale(-1, 1);
-		//_velocidadSalto += 2;
+
 		_estado = ESTADOS_PERSONAJE::QUIETO;
 		break;
 	case DERECHA:
+
 		_frame += 0.25;
 		if (_frame >= 8) {
 			_frame = 0;
@@ -157,30 +167,28 @@ void Personaje::update() {
 		_sprite.setTextureRect({ 0 + int(_frame) * 43,0,42,37 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_velocity.x = 3;
-		//_velocidadSalto -= 2;
-		_sprite.move(3, -_velocidadSalto);
+		_sprite.move(_velocity.x, -_velocidadSalto);
 		_sprite.setScale(1, 1);
-		//_velocidadSalto += 2;
+
 		_estado = ESTADOS_PERSONAJE::QUIETO;
 		break;
+
 	case ATAQUE:
-		_frame += 0.25;
-		//_velocidadSalto -= 2;
+
+		/*/_frame += 0.25;
 		if (_frame >= 3) {
 			_frame = 0;
-		}
+		}*/
 		_sprite.setTexture(_textureATAQUE);
-		_sprite.setTextureRect({ (int(_frame)*44)+220,0,44,37 });
+		_sprite.setTextureRect({ /*(int(_frame) * 44) + */ 220,0,44,37});
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.move(0, -_velocidadSalto);
-		
-		//std::cout << getscale().x << "--------------------" << getscale().y << "\n";
-		disparar(this->getposition().x+120, this->getposition().y-5,getscale());
+		if(_cooldown <= 0){
+			disparar(this->getposition().x, this->getposition().y,getscale());
+		}
 
-
-		//_poder[0].setPosition(_sprite.getPosition());
-		//_velocidadSalto += 2;
 		break;
+
 	case CAYENDO:
 		_velocidadSalto -= 1;
 		_sprite.move(0, -_velocidadSalto);
@@ -191,14 +199,8 @@ void Personaje::update() {
 		_sprite.setTexture(_textureSALTANDO);
 		_sprite.setTextureRect({ 0 + int(_frame) * 38,0,38,42 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
-		//_sprite.setScale(1, 1);
-		//_estado = ESTADOS_PERSONAJE::QUIETO;
 		break;
 	}
-
-	//_velocidadSalto -= 1;
-	//_velocity.y -= _velocidadSalto;
-	//move(_velocity.x, _velocity.y);
 
 	//colisiones piso
 	if (_sprite.getGlobalBounds().left < 0) {
@@ -214,9 +216,6 @@ void Personaje::update() {
 		_sprite.setPosition(_sprite.getPosition().x, 590 + (_sprite.getGlobalBounds().height - _sprite.getOrigin().y));
 		_estado = ESTADOS_PERSONAJE::QUIETO;
 	} 
-	
-	
-	
 }
 
 //personaje dibujable
@@ -234,18 +233,6 @@ sf::FloatRect Personaje::getBounds() const
 sf::Sprite Personaje::getsprite() const
 {
 	return _sprite;
-}
-
-float Personaje::getposx()
-{
-	return _sprite.getPosition().x;
-}
-
-void Personaje::quieto(float x, float y)
-{
-	_estado = ESTADOS_PERSONAJE::QUIETO;
-	_velocidadSalto = 0;
-	_sprite.setPosition(x, y);
 }
 
 sf::Vector2f Personaje::getPreviousPos()
@@ -286,11 +273,6 @@ void Personaje::respawn(sf::Vector2f pos)
 	}
 }
 
-float Personaje::getvelocidadSalto()
-{
-	return _velocidadSalto;
-}
-
 void Personaje::controladorVida()
 {
 	_vida -= 1;
@@ -322,31 +304,22 @@ void Personaje::sonidos(ESTADOS_PERSONAJE estado)
 	}
 }
 
-sf::Vector2f Personaje::cargarPosition()
-{
-	sf::Vector2f pos(this->getposition());
-	return pos;
-}
-
 
 void Personaje::disparar(float positionX, float positionY,sf::Vector2f scale) {
 
 	bool izq;
 	if (scale.x == -1) {
 		izq = true;
+		positionX += 25;
+		positionY -= 5;
+		getCurrentGamePlay().createBala(positionX, positionY, izq);
+		_cooldown = 10;
 	}
 	else {
 		izq = false;
-	}
-	getCurrentGamePlay().createBala(positionX,positionY,izq);
-	if (scale.x == -1) {
-		std::cout << "aaa" << " \n";
-		//positionX -= 20;
-		_cooldown = 10;
-	}
-	else{
-		std::cout << "bbb" << " \n";
-		//positionX += 20;
+		positionX += 25;
+		positionY -= 5;
+		getCurrentGamePlay().createBala(positionX,positionY,izq);
 		_cooldown = 10;
 	}
 }

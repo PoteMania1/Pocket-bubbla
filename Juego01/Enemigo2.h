@@ -36,5 +36,6 @@ public:
 	sf::Sprite getsprite() const;
 	sf::Vector2f _newPosition;
 	int _timeRespawn;
+	void respawn();
 };
 

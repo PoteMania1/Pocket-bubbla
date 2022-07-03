@@ -18,7 +18,7 @@ enum ESTADOS_PERSONAJE {
 	CAYENDO
 };
 
-class Personaje: public sf::Drawable, public colisionable, public sf::Transformable//, public GamePlayable
+class Personaje: public sf::Drawable, public colisionable, public sf::Transformable
 {
 private:
 	sf::Sprite _sprite;
@@ -39,9 +39,8 @@ private:
 	//NEW
 	float _frame;
 	sf::Vector2f _PreviousPos;
-	float _velAtaque;
 	GamePlayable& _gameplay;
-	unsigned int _cooldown;
+	int _cooldown;
 	
 public:
 	Personaje(GamePlayable& gameplay);
@@ -51,9 +50,7 @@ public:
 	sf::FloatRect getBounds() const override;
 	sf::Sprite getsprite() const;
 	//NEW
-	int inicio;
-	float getposx();
-	void quieto(float, float);
+	int inicioJuego;
 	sf::Vector2f getPreviousPos();
 	ESTADOS_PERSONAJE getEstado();
 	void setEstado(ESTADOS_PERSONAJE);
@@ -61,11 +58,9 @@ public:
 	sf::Vector2f getposition() const;
 	sf::Vector2f getscale();
 	void respawn(sf::Vector2f pos);
-	float getvelocidadSalto();
 	void controladorVida();
 	void sumaPuntos();
 	void sonidos(ESTADOS_PERSONAJE);
-	sf::Vector2f cargarPosition();
 	void disparar(float positionX, float positionY,sf::Vector2f scale);
 	GamePlayable& getCurrentGamePlay();
 };
