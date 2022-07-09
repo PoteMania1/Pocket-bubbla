@@ -29,7 +29,6 @@ Personaje::Personaje(GamePlayable& gameplay)  :_gameplay(gameplay) {
 	_soundPASOS.setBuffer(_bufferPASOS);
 	inicioJuego = 0;
 	_cooldown = 0;
-	//_poderes.CargarAtaque(_poder, 1);
 }
 
 
@@ -45,12 +44,12 @@ void Personaje::cmd()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			_estado = ESTADOS_PERSONAJE::IZQUIERDA;
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-			_estado = ESTADOS_PERSONAJE::ATAQUE;
-		}
 		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 			_estado = ESTADOS_PERSONAJE::DERECHA;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+			_estado = ESTADOS_PERSONAJE::ATAQUE;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			_estado = ESTADOS_PERSONAJE::SALTOIZQ;
@@ -108,6 +107,15 @@ void Personaje::update() {
 		_sprite.setTexture(_textureSALTANDO);
 		_sprite.setTextureRect({ 0 + int(_frame) * 38,0,38,42 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)&& _cooldown <= 0) {
+			disparar(this->getposition().x, this->getposition().y, getscale());
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			_sprite.setScale(1, 1);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+			_sprite.setScale(-1, 1); 
+		}
 
 		break;
 	case SALTOIZQ:
@@ -124,6 +132,9 @@ void Personaje::update() {
 		_sprite.setTextureRect({ 0 + int(_frame) * 38,0,38,42 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.setScale(-1, 1);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && _cooldown <= 0) {
+			disparar(this->getposition().x, this->getposition().y, getscale());
+		}
 
 		break;
 	case SALTODER:
@@ -140,6 +151,9 @@ void Personaje::update() {
 		_sprite.setTextureRect({ 0 + int(_frame) * 38,0,38,42 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 		_sprite.setScale(1, 1);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && _cooldown <= 0) {
+			disparar(this->getposition().x, this->getposition().y, getscale());
+		}
 
 		break;
 	case IZQUIERDA:
@@ -199,6 +213,15 @@ void Personaje::update() {
 		_sprite.setTexture(_textureSALTANDO);
 		_sprite.setTextureRect({ 0 + int(_frame) * 38,0,38,42 });
 		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && _cooldown <= 0) {
+			disparar(this->getposition().x, this->getposition().y, getscale());
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			_sprite.setScale(1, 1);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+			_sprite.setScale(-1, 1);
+		}
 		break;
 	}
 

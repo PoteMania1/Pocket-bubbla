@@ -2,15 +2,18 @@
 #include <stdlib.h>
 #include <ctime>
 #include "GamePlay.h"
+#include "MainMenu.h"
+
 
 int main()
 {
     std::srand((unsigned)std::time(0));
 
     //inicializacion de la ventana
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Poket Bubbla!");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Pocket Bubbla!");
     window.setFramerateLimit(60);
-
+    MainMenu mainmenu(800, 600);
+    bool play = false;
     GamePlay game;
 
     //Game Loop (update del juego)
@@ -25,30 +28,70 @@ int main()
                 window.close();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                 window.close();
+            switch (event.type)
+            {
+            case sf::Event::KeyReleased:
+
+                switch (event.key.code)
+                {
+                case sf::Keyboard::Up:
+                    mainmenu.MoveUp();
+                    break;
+
+                case sf::Keyboard::Down:
+                    mainmenu.MoveDown();
+                    break;
+
+                case sf::Keyboard::Return:
+                    switch (mainmenu.MainMenuPressed())
+                    {
+                    case 0:
+                        std::cout << "Play button has been pressed" << std::endl;
+                        play = true;
+                        break;
+                    case 1:
+                        std::cout << "Option button has been pressed" << std::endl;
+                        break;
+                    case 2:
+                        std::cout << "about button has been pressed" << std::endl;
+                        break;
+                    case 3:
+                        window.close();
+                        break;
+                    }
+
+                    break;
+                }
+
+                break;
+            case sf::Event::Closed:
+                window.close();
+
+                break;
+
+            }
         }
 
         // CMD - Joy
-        game.cmd();
-        
-
+        if (play) {
+            game.cmd();
+        }
         // Update - Actualiza los estados del juego
-        game.update();
-        
+        if (play) {
+            game.update();
+        }
 
-        /*if (ash.isColision(Fruti)) {
-              Fruti.respawn();
-        }*/
 
         window.clear();
-        //ash.draw(window);
 
         // Draw
-     
-        window.draw(game);
-        //ash.draw(window);
-        window.display();
-        //window.draw(Fruti);
+        mainmenu.draw(window);
+        if(play){
+            window.draw(game);
+        }
+
         // Display - Flip
+        window.display();
 
 
     }
