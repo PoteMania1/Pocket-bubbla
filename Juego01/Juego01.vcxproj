@@ -138,12 +138,13 @@
     <ClCompile Include="Enemigo2.cpp" />
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="GamePlayable.cpp" />
+    <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
-    <ClCompile Include="Nivel.cpp" />
-    <ClCompile Include="Obstaculo.cpp" />
+    <ClCompile Include="Nivel1.cpp" />
     <ClCompile Include="Personaje.cpp" />
+    <ClCompile Include="Puntos.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ataque.h" />
@@ -152,11 +153,12 @@
     <ClInclude Include="Enemigo2.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="GamePlayable.h" />
+    <ClInclude Include="Hud.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="Nivel.h" />
-    <ClInclude Include="Obstaculo.h" />
+    <ClInclude Include="Nivel1.h" />
     <ClInclude Include="Personaje.h" />
+    <ClInclude Include="Puntos.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

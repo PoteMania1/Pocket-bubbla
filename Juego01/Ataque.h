@@ -2,7 +2,6 @@
 #include <SFML/Graphics.hpp>
 #include "Colisionable.h"
 #include "Enemigo.h"
-#include "Obstaculo.h"
 
 enum ESTADOS_ATAQUE {
 	NOACTIVO,

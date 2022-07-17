@@ -2,12 +2,13 @@
 #include <SFML/Graphics.hpp>
 #include "GamePlayable.h"
 #include "Personaje.h"
+#include "Puntos.h"
 #include "Item.h"
-#include "Nivel.h"
-#include "Obstaculo.h"
+#include "Nivel1.h"
 #include "Enemigo.h"
 #include "Enemigo2.h"
 #include "Ataque.h"
+#include "Hud.h"
 #include <list>
 
 class GamePlay : public sf::Drawable , public GamePlayable
@@ -17,8 +18,7 @@ private:
 	Personaje _ash;
 	Item _fruta;
 	Item _frutas[10];
-	Nivel _nivel1;
-	Obstaculo _plataforma;
+	Nivel1 _nivel1;
 	sf::Sprite _plataformaD[25];
 	Enemigo _enemy;
 	Enemigo2 _enemy2;
@@ -30,8 +30,10 @@ private:
 	std::list<Item> _Frutas;
 	sf::SoundBuffer _bufferMonedas;
 	sf::SoundBuffer _bufferMuerte;
-	sf::SoundBuffer _bufferPasos;
+	sf::SoundBuffer _bufferAtaque;
 	sf::Sound _sound;
+	Puntos _puntos;
+	Hud _hud;
 
 public:
 	GamePlay();
@@ -43,5 +45,6 @@ public:
 	int auxMovPlataform;
 	void createBala(float positionX, float positionY, bool izqOder) override;
 	void sonidos();
+	void ColisionObst();
 };
 

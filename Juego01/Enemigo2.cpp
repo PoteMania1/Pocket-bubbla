@@ -3,41 +3,36 @@
 Enemigo2::Enemigo2()
 {
 	_frame = 0;
-	_velocity = { 4,4 };
+	_velocity = { 1,0 };
 	_texture.loadFromFile("Assets/Enemigo/War.png");
 	_sprite.setTexture(_texture);
 	//_sprite.setTextureRect({ 0,0,52,45 });
 	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
-	_sprite.setPosition(48, 265);
+	_sprite.setPosition(170, 287);
+	_posicionInicial = _sprite.getPosition();
+	auxMovEnemy = 0;
 }
 
-void Enemigo2::cmd(sf::Vector2f positionP)
+void Enemigo2::cmd(sf::Vector2f positionActual)
 {
-	/*if (_estado == ESTADOS_ENEMIGO::QUIETO) {
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-			_estado = ESTADOS_ENEMIGO::SALTANDO;
-			_velocidadSalto = 15;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-			_estado = ESTADOS_ENEMIGO::IZQUIERDA;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-			_estado = ESTADOS_ENEMIGO::ATAQUE;
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-			_estado = ESTADOS_ENEMIGO::DERECHA;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-			_estado = ESTADOS_ENEMIGO::SALTOIZQ;
-			_velocidadSalto = 19;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-			_estado = ESTADOS_ENEMIGO::SALTODER;
-			_velocidadSalto = 19;
-		}
-	}*/
+	if (_posicionInicial.x - positionActual.x <= 0
+		&& auxMovEnemy == 0) {
+		_sprite.setScale(-1, 1);
+		_sprite.move(-_velocity);
+		//std::cout << _posicionInicial.x - positionActual.x<<"\n";
+	}
+	else if (_posicionInicial.x - positionActual.x >= -400) {
+		auxMovEnemy = 1;
+	}
+	else if (_posicionInicial.x - positionActual.x >= -400
+		&& auxMovEnemy == 1) {
+		_sprite.setScale(1, 1);
+		_sprite.move(_velocity);
+		//std::cout << "derecha\n";
+	}
+	else if (_posicionInicial.x - positionActual.x <= 0) {
+			auxMovEnemy = 0;
+	}
 }
 
 void Enemigo2::update()
@@ -74,4 +69,14 @@ sf::Sprite Enemigo2::getsprite() const
 void Enemigo2::respawn()
 {
 	_sprite.setPosition(std::rand() % 700 + _sprite.getGlobalBounds().width, std::rand() % 500 + _sprite.getGlobalBounds().height);
+}
+
+sf::Vector2f Enemigo2::getPosicionInicial() const
+{
+	return _posicionInicial;
+}
+
+sf::Vector2f Enemigo2::getposition() const
+{
+	return _sprite.getPosition();
 }

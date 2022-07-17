@@ -14,6 +14,7 @@ int main()
     window.setFramerateLimit(60);
     MainMenu mainmenu(800, 600);
     bool play = false;
+    bool status = false;
     GamePlay game;
 
     //Game Loop (update del juego)
@@ -35,11 +36,17 @@ int main()
                 switch (event.key.code)
                 {
                 case sf::Keyboard::Up:
-                    mainmenu.MoveUp();
+                    status = false;
+                    if (!status) {
+                        mainmenu.MoveUp();
+                    }
                     break;
 
                 case sf::Keyboard::Down:
-                    mainmenu.MoveDown();
+                    status = false;
+                    if (!status) {
+                        mainmenu.MoveDown();
+                    }
                     break;
 
                 case sf::Keyboard::Return:
@@ -48,12 +55,15 @@ int main()
                     case 0:
                         std::cout << "Play button has been pressed" << std::endl;
                         play = true;
+                        mainmenu.Stop();
                         break;
                     case 1:
                         std::cout << "Option button has been pressed" << std::endl;
+                        status = true;
                         break;
                     case 2:
                         std::cout << "about button has been pressed" << std::endl;
+                        status = true;
                         break;
                     case 3:
                         window.close();
@@ -64,6 +74,7 @@ int main()
                 }
 
                 break;
+
             case sf::Event::Closed:
                 window.close();
 
@@ -85,7 +96,10 @@ int main()
         window.clear();
 
         // Draw
-        mainmenu.draw(window);
+        if(!play){
+            mainmenu.draw(window,status);
+            //mainmenu.SonidoFondo(play);
+        }
         if(play){
             window.draw(game);
         }

@@ -25,8 +25,11 @@ Personaje::Personaje(GamePlayable& gameplay)  :_gameplay(gameplay) {
 	_spriteATAQUE.setTexture(_textureATAQUE);
 	_spriteATAQUE.setTextureRect({ 0,0,42,37 });
 	_spriteATAQUE.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
-	_bufferPASOS.loadFromFile("Sounds/Ash/Pasos-Corriendo.wav");
-	_soundPASOS.setBuffer(_bufferPASOS);
+	_bufferPasos.loadFromFile("Sounds/Ash/Pasos.wav");
+	_bufferAtaque.loadFromFile("Sounds/Ash/Ataque.wav");
+	_bufferSalto1.loadFromFile("Sounds/Ash/Salto1.wav");
+	//_bufferSalto2.loadFromFile("Sounds/Ash/Salto2.wav");
+	//_bufferSalto3.loadFromFile("Sounds/Ash/Salto3.wav");
 	inicioJuego = 0;
 	_cooldown = 0;
 }
@@ -40,13 +43,19 @@ void Personaje::cmd()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 			_estado = ESTADOS_PERSONAJE::SALTANDO;
 			_velocidadSalto = 15;
+			_sound.setBuffer(_bufferSalto1);
+			sonidos();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			_estado = ESTADOS_PERSONAJE::IZQUIERDA;
+			_sound.setBuffer(_bufferPasos);
+			//sonidos();
 		}
 		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 			_estado = ESTADOS_PERSONAJE::DERECHA;
+			_sound.setBuffer(_bufferPasos);
+			//sonidos();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 			_estado = ESTADOS_PERSONAJE::ATAQUE;
@@ -54,10 +63,14 @@ void Personaje::cmd()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			_estado = ESTADOS_PERSONAJE::SALTOIZQ;
 			_velocidadSalto = 19;
+			_sound.setBuffer(_bufferSalto1);
+			sonidos();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 			_estado = ESTADOS_PERSONAJE::SALTODER;
 			_velocidadSalto = 19;
+			_sound.setBuffer(_bufferSalto1);
+			sonidos();
 		}
 	}
 }
@@ -239,6 +252,8 @@ void Personaje::update() {
 		_sprite.setPosition(_sprite.getPosition().x, 590 + (_sprite.getGlobalBounds().height - _sprite.getOrigin().y));
 		_estado = ESTADOS_PERSONAJE::QUIETO;
 	} 
+	//colisiones obst
+	
 }
 
 //personaje dibujable
@@ -292,7 +307,7 @@ void Personaje::respawn(sf::Vector2f pos)
 {
 	if(_velocidadSalto < 0){
 		_estado = ESTADOS_PERSONAJE::QUIETO;
-		_sprite.setPosition(_sprite.getPosition().x, pos.y+5 + (_sprite.getGlobalBounds().height - _sprite.getOrigin().y));
+		_sprite.setPosition(_sprite.getPosition().x, pos.y+2 + (_sprite.getGlobalBounds().height - _sprite.getOrigin().y));
 	}
 }
 
@@ -303,6 +318,7 @@ void Personaje::controladorVida()
 	std::cout <<"Vida: " << _vida << std::endl;
 	if (_vida == 0) {
 		_puntos = 0;
+		_punto.setPuntos(_puntos);
 		std::cout << "Puntos: " << _puntos << std::endl;
 	}
 }
@@ -314,16 +330,13 @@ void Personaje::sumaPuntos()
 	
 }
 
-void Personaje::sonidos(ESTADOS_PERSONAJE estado)
+void Personaje::sonidos()
 {
-	if (estado == DERECHA || estado == IZQUIERDA) {
-		if (_soundPASOS.getStatus() != sf::SoundSource::Status::Playing) {
-			_soundPASOS.play();
-		}
+	if (_sound.getStatus() != sf::SoundSource::Status::Playing) {
+		_sound.play();
 	}
-	
 	else {
-		_soundPASOS.stop();
+		_sound.stop();
 	}
 }
 
