@@ -36,6 +36,7 @@ private:
 	sf::SoundBuffer _bufferSalto2;
 	sf::SoundBuffer _bufferSalto3;
 	sf::Sound _sound;
+	bool _estadoVida;
 	int _vida;
 	Puntos _punto;
 	int _puntos;
@@ -49,24 +50,23 @@ private:
 	
 public:
 	Personaje(GamePlayable& gameplay);
+	int inicioJuego;
 	void cmd();
 	void update();
 	void draw(sf::RenderTarget& target, sf::RenderStates states)const override;
 	sf::FloatRect getBounds() const override;
 	sf::Sprite getsprite() const;
-	//NEW
-	int inicioJuego;
 	sf::Vector2f getPreviousPos();
 	ESTADOS_PERSONAJE getEstado();
-	void setEstado(ESTADOS_PERSONAJE);
 	sf::FloatRect getGlobalBounds() const;
 	sf::Vector2f getposition() const;
 	sf::Vector2f getscale();
+	GamePlayable& getCurrentGamePlay();
+	void setEstado(ESTADOS_PERSONAJE);
+	void setEstadoVida(bool vida);
 	void respawn(sf::Vector2f pos);
 	void controladorVida();
-	void sumaPuntos();
 	void sonidos();
 	void disparar(float positionX, float positionY,sf::Vector2f scale);
-	GamePlayable& getCurrentGamePlay();
 };
 

@@ -9,6 +9,7 @@
 #include "Enemigo2.h"
 #include "Ataque.h"
 #include "Hud.h"
+#include "Vidas.h"
 #include <list>
 
 class GamePlay : public sf::Drawable , public GamePlayable
@@ -34,6 +35,7 @@ private:
 	sf::Sound _sound;
 	Puntos _puntos;
 	Hud _hud;
+	Vidas _vidas;
 
 public:
 	GamePlay();

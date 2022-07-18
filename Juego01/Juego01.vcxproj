@@ -145,6 +145,7 @@
     <ClCompile Include="Nivel1.cpp" />
     <ClCompile Include="Personaje.cpp" />
     <ClCompile Include="Puntos.cpp" />
+    <ClCompile Include="Vidas.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ataque.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Personaje.h" />
     <ClInclude Include="Puntos.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Vidas.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Juego01.rc" />

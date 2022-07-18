@@ -48,6 +48,7 @@ void GamePlay::update()
 	_enemy2.update();
 	_hud.Update();
 	_hud.setPuntos(_puntos.getPuntos());
+	_hud.setVidas(_vidas.getVidas());
 	//_puntos.Update();
 	
 	/*for (Item& fruta : _frutas) {
@@ -93,18 +94,23 @@ void GamePlay::update()
 		}
 	}
 
-	/*if (_ash.isColision(_enemy)) {
-		std::cout << "chocaste" << std::endl;
-		_ash.controladorVida();
-		_ash.setPosition(300, 600);
+	if (_ash.isColision(_enemy)) {
+		_ash.setEstadoVida(false);
+		_vidas.setVidasMenos();
 		_sound.setBuffer(_bufferMuerte);
 		sonidos();
-	}*/
+	}
+
+	if (_ash.isColision(_enemy2)) {
+		_ash.setEstadoVida(false);
+		_vidas.setVidasMenos();
+		_sound.setBuffer(_bufferMuerte);
+		sonidos();
+	}
 
 	if (_ash.isColision(_fruta)) {
 		_fruta.respawn();
 		_puntos.sumPuntos(50);
-		_ash.sumaPuntos();
 		_sound.setBuffer(_bufferMonedas);
 		sonidos();
 	}
@@ -301,7 +307,6 @@ void GamePlay::ColisionObst()
 	}
 }
 
-
 void GamePlay::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	int xs = 0;
 	target.draw(_nivel1, states);
@@ -314,8 +319,8 @@ void GamePlay::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	}*/
 	target.draw(_fruta.getsprite(), states);
 	target.draw(_enemy.getsprite(), states);
-	target.draw(_hud, states);
 	target.draw(_enemy2.getsprite(), states);
+	target.draw(_hud, states);
 
 	/*for (Enemigo wargreymon : _enemy) {		///MUCHOS WARGREYMONES
 		target.draw(wargreymon.getsprite(), states);

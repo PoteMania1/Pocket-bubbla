@@ -16,10 +16,10 @@ Personaje::Personaje(GamePlayable& gameplay)  :_gameplay(gameplay) {
 	_spriteSALTANDO.setTexture(_textureSALTANDO);
 	_spriteSALTANDO.setTextureRect({ 0,0,42,37 });
 	_spriteSALTANDO.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
-	_sprite.setPosition(300, 600);
+	_sprite.setPosition(300, 565);
 	_velocidadSalto = 0;
 	_estado = ESTADOS_PERSONAJE::QUIETO;
-	_vida = 3;
+	_vida = 4;
 	_puntos = 0;
 	_textureATAQUE.loadFromFile("Assets/Personaje/Ash-Ataque.png");
 	_spriteATAQUE.setTexture(_textureATAQUE);
@@ -32,13 +32,14 @@ Personaje::Personaje(GamePlayable& gameplay)  :_gameplay(gameplay) {
 	//_bufferSalto3.loadFromFile("Sounds/Ash/Salto3.wav");
 	inicioJuego = 0;
 	_cooldown = 0;
+	_estadoVida = true;
 }
 
 
 void Personaje::cmd()
 {
 	//comandos del personaje
-	if (_estado == ESTADOS_PERSONAJE::QUIETO) {
+	if (_estado == ESTADOS_PERSONAJE::QUIETO && _estadoVida) {
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 			_estado = ESTADOS_PERSONAJE::SALTANDO;
@@ -78,6 +79,11 @@ void Personaje::cmd()
 
 void Personaje::update() {
 
+	if (!_estadoVida) {
+		_estadoVida = true;
+		_sprite.setPosition(0, 472);
+	}
+
 	//Aplica gravedad al personaje para que no quede flotando al iniciar el juego
 	if (inicioJuego == 0){
 		_velocidadSalto = -5;
@@ -93,6 +99,7 @@ void Personaje::update() {
 	if (_velocidadSalto < -5) {
 		_velocidadSalto = -5;
 	}
+
 	//movimiento personaje
 	switch (_estado)
 	{
@@ -242,8 +249,8 @@ void Personaje::update() {
 	if (_sprite.getGlobalBounds().left < 0) {
 		_sprite.setPosition(_sprite.getOrigin().x, _sprite.getPosition().y);
 	}
-	if (_sprite.getGlobalBounds().top < 0) {
-		_sprite.setPosition(_sprite.getPosition().x, _sprite.getOrigin().y);
+	if (_sprite.getGlobalBounds().top < 45) {
+		_sprite.setPosition(_sprite.getPosition().x, _sprite.getOrigin().y+45);
 	}
 	if (_sprite.getGlobalBounds().left + _sprite.getGlobalBounds().width > 800) {
 		_sprite.setPosition(800 - (_sprite.getGlobalBounds().width - _sprite.getOrigin().x), _sprite.getPosition().y);
@@ -288,6 +295,11 @@ void Personaje::setEstado(ESTADOS_PERSONAJE estado)
 	_estado = estado;
 }
 
+void Personaje::setEstadoVida(bool vida)
+{
+	_estadoVida = vida;
+}
+
 sf::FloatRect Personaje::getGlobalBounds() const
 {
 	return _sprite.getGlobalBounds();
@@ -321,13 +333,6 @@ void Personaje::controladorVida()
 		_punto.setPuntos(_puntos);
 		std::cout << "Puntos: " << _puntos << std::endl;
 	}
-}
-
-void Personaje::sumaPuntos()
-{
-	_puntos += 10;
-	std::cout <<"Puntos: " << _puntos << std::endl;
-	
 }
 
 void Personaje::sonidos()
