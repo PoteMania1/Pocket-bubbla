@@ -7,124 +7,60 @@
 GamePlay::GamePlay():
 	_ash(*this)
 {
-	/*for (int i = 0; i<10; i++) {
-		_fruta.CargarVector(&_frutas[i].getsprite(), 10);
-	}*/
+	_enemy3.setposition(sf::Vector2f(200, 381));
+	_enemy4.setposition(sf::Vector2f(5, 381));
 	music.openFromFile("Sounds/Castlevania-SOTN-Draculas-Castle.wav");
 	music.setVolume(15);
 	_bufferMonedas.loadFromFile("Sounds/Ash/Agarrar-item.wav");
 	_bufferMuerte.loadFromFile("Sounds/Ash/Muere.wav");
 	_bufferAtaque.loadFromFile("Sounds/Ash/Ataque.wav");
 	_colision = false;
-	//_plataforma.CargarVecObst(_plataformaD, 25);
-	_preposPlataform = _plataformaD[7].getPosition();
-	_preposPlataform2 = _plataformaD[2].getPosition();
 	auxMovPlataform = 0;
 }
 
 void GamePlay::cmd()
 {
 	_ash.cmd();
-}
-
-sf::Sprite GamePlay::getSprite1()
-{
-	return _plataformaD[0];
+	_enemy2.cmd(_enemy2.getposition(),400);
+	_enemy4.cmd(_enemy4.getposition(),50);
 }
 
 void GamePlay::update()
 {
-	_enemy2.cmd(_enemy2.getposition());
-	if (music.getStatus() != sf::SoundSource::Status::Playing) {
+	if (music.getStatus() != sf::SoundSource::Status::Playing || music.getStatus() == sf::SoundSource::Status::Paused) {
 		music.setVolume(15);
 		music.play();
 	}
-	//movimientoPlataforma(_plataformaD[7], _preposPlataform);
-	//movimientoPlataforma(_plataformaD[2], _preposPlataform2);
+
 	_colision = false;
 	_ash.update();
-	_fruta.update();
 	_enemy.update();
+	_enemy3.update();
 	_enemy2.update();
+	_enemy4.update();
 	_hud.Update();
 	_hud.setPuntos(_puntos.getPuntos());
 	_hud.setVidas(_vidas.getVidas());
-	//_puntos.Update();
 	
-	/*for (Item& fruta : _frutas) {
+	for (Item& fruta : _frutas) {
 		fruta.update();
 		if(_ash.isColision(fruta)) {
 			fruta.respawn();
-			_ash.sumaPuntos();
+			_puntos.sumPuntos(50);
 			_sound.setBuffer(_bufferMonedas);
 			sonidos();
 		}
-	}*/
-	std::list<Ataque>::iterator i = _haduken.begin();
-
-	while (i != _haduken.end()) {
-		
-		Ataque& a = (*i);
-		a.update();
-		
-		if (a.getposition().x < 0|| a.getposition().x > 800) {
-			i = _haduken.erase(i);
-		}
-		else {
-			bool iscolission = false;
-			for (Ataque a: _haduken) {
-				if (a.isColision(_enemy)) {
-					i = _haduken.erase(i);
-					_puntos.sumPuntos(200);
-					_enemy.respawn();
-					iscolission = true;
-					break;
-				}
-				else if (a.isColision(_enemy2)) {
-					i = _haduken.erase(i);
-					_enemy2.respawn();
-					_puntos.sumPuntos(200);
-					iscolission = true;
-					break;
-				}
-			}
-			if (!iscolission) {
-				i++;
-			}
-		}
 	}
 
-	if (_ash.isColision(_enemy)) {
-		_ash.setEstadoVida(false);
-		_vidas.setVidasMenos();
-		_sound.setBuffer(_bufferMuerte);
-		sonidos();
-	}
-
-	if (_ash.isColision(_enemy2)) {
-		_ash.setEstadoVida(false);
-		_vidas.setVidasMenos();
-		_sound.setBuffer(_bufferMuerte);
-		sonidos();
-	}
-
-	if (_ash.isColision(_fruta)) {
-		_fruta.respawn();
-		_puntos.sumPuntos(50);
-		_sound.setBuffer(_bufferMonedas);
-		sonidos();
-	}
-	/*for (Enemigo wargreymon : _enemy) { ///MUCHOS WARGREYMONES
-		wargreymon.update();
-	}*/
-	/*for (Enemigo wargreymon : _enemy) {            ///MUCHOS WARGREYMONES
-		if (_ash.isColision(wargreymon)) {
-			std::cout << "chocaste" << std::endl;
-			_ash.setPosition(300, 600);
-		}
-	}*/
 
 	ColisionObst();
+
+	ColisionesAtaque(_enemy,_enemy2);
+	ColisionesAtaque(_enemy3,_enemy4);
+
+	ColisionesEnemigos(_enemy, _enemy2);
+	ColisionesEnemigos(_enemy3, _enemy4);
+
 }
 
 void GamePlay::movimientoPlataforma(sf::Sprite &plataforma,sf::Vector2f &prepos)
@@ -169,6 +105,12 @@ void GamePlay::sonidos()
 	else {
 		_sound.stop();
 	}
+}
+
+void GamePlay::setVida()
+{
+	_ash.respawn(sf::Vector2f(300, 565));
+	_vidas.setvida(4);
 }
 
 void GamePlay::ColisionObst()
@@ -307,19 +249,112 @@ void GamePlay::ColisionObst()
 	}
 }
 
+void GamePlay::setPuntos()
+{
+	_puntos.setPuntos(0);
+}
+
+void GamePlay::ColisionesAtaque(Enemigo& e, Enemigo2& e2)
+{
+	std::list<Ataque>::iterator i = _haduken.begin();
+
+	while (i != _haduken.end()) {
+
+		Ataque& a = (*i);
+		a.update();
+
+		if (a.getposition().x < 0 || a.getposition().x > 800) {
+			i = _haduken.erase(i);
+		}
+		else if (a.isColision(e) && e.getEstadoVida()) {
+			i = _haduken.erase(i);
+			_puntos.sumPuntos(200);
+			//e.setEstadoVida(false);
+			e.respawn();
+			//crearfrutas(_enemy.getposition());
+			break;
+		}
+		else if (a.isColision(e2) && e2.getEstadoVida()) {
+			i = _haduken.erase(i);
+			_puntos.sumPuntos(200);
+			//e2.setEstadoVida(false);
+			e2.respawn();
+			//crearfrutas(_enemy.getposition());
+			break;
+		}
+		else {
+			i++;
+		}
+	}
+}
+
+bool GamePlay::GameOver()
+{
+	if (_vidas.getVidas() == 0) {
+		_ash.setVidasMas();
+		_ash.setVidasMas();
+		_ash.setVidasMas();
+		_ash.setVidasMas();
+		return true;
+	}
+	return false;
+}
+
+void GamePlay::ColisionesEnemigos(Enemigo& e, Enemigo2& e2)
+{
+	if (_ash.isColision(e) && e.getEstadoVida()) {
+		_ash.setEstadoVida(false);
+		_ash.setVidasMenos();
+		_vidas.setVidasMenos();
+		_sound.setBuffer(_bufferMuerte);
+		sonidos();
+	}
+
+	if (_ash.isColision(e2) && e2.getEstadoVida()) {
+		_ash.setEstadoVida(false);
+		_ash.setVidasMenos();
+		_vidas.setVidasMenos();
+		_sound.setBuffer(_bufferMuerte);
+		sonidos();
+	}
+}
+
+int GamePlay::getvidas()
+{
+	return _vidas.getVidas();
+}
+
+
+/*void GamePlay::crearfrutas(sf::Vector2f pos)
+{
+	_frutas.push_back(Item(pos));
+}*/
+
 void GamePlay::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-	int xs = 0;
+
 	target.draw(_nivel1, states);
+
 	for (const Ataque& a : _haduken) {
  		target.draw(a, states);
 	}
-	target.draw(_ash.getsprite(), states);
-	/*for (Item fruta : _frutas) {
+
+	for (Item fruta : _frutas) {
 		target.draw(fruta, states);
+	}
+
+	/*for (const Item& i : _frutas) {
+		target.draw(i, states);
 	}*/
-	target.draw(_fruta.getsprite(), states);
-	target.draw(_enemy.getsprite(), states);
-	target.draw(_enemy2.getsprite(), states);
+
+	//target.draw(_fruta, states);
+	target.draw(_enemy, states);
+	target.draw(_enemy3, states);
+
+	target.draw(_enemy2, states);
+	target.draw(_enemy4, states);
+
+	target.draw(_ash, states);
+
 	target.draw(_hud, states);
 
 	/*for (Enemigo wargreymon : _enemy) {		///MUCHOS WARGREYMONES

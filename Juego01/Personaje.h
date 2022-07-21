@@ -65,7 +65,8 @@ public:
 	void setEstado(ESTADOS_PERSONAJE);
 	void setEstadoVida(bool vida);
 	void respawn(sf::Vector2f pos);
-	void controladorVida();
+	void setVidasMenos();
+	void setVidasMas();
 	void sonidos();
 	void disparar(float positionX, float positionY,sf::Vector2f scale);
 };

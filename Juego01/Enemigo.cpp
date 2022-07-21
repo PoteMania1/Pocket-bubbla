@@ -8,6 +8,18 @@ Enemigo::Enemigo()
 		_sprite.setTextureRect({ 0,0,84,63 });
 		respawn();
 		_frame = 0;
+		_estadoVida = true;
+}
+
+Enemigo::Enemigo(int num)
+{
+		_texture.loadFromFile("Assets/Enemigo/Bicho.png");
+		_sprite.setTexture(_texture);
+		_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
+		_sprite.setTextureRect({ 0,0,84,63 });
+		respawn();
+		_frame = 0;
+		_estadoVida = true;
 }
 
 void Enemigo::update()
@@ -88,13 +100,20 @@ void Enemigo::update()
 }
 void Enemigo::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(_sprite, states);
+	if (_estadoVida) {
+		target.draw(_sprite, states);
+	}
 }
 
 void Enemigo::respawn()
 {
-	_sprite.setPosition(std::rand() % 700 + _sprite.getGlobalBounds().width, std::rand() % 500 + _sprite.getGlobalBounds().height);
+	_sprite.setPosition(std::rand() % 600 + _sprite.getGlobalBounds().width, std::rand() % 500 + _sprite.getGlobalBounds().height);
 	_timeRespawn = 60 * 2;
+}
+
+sf::Vector2f Enemigo::getposition() const
+{
+	return _sprite.getPosition();
 }
 
 sf::FloatRect Enemigo::getBounds() const
@@ -105,4 +124,19 @@ sf::FloatRect Enemigo::getBounds() const
 sf::Sprite Enemigo::getsprite() const
 {
 	return _sprite;
+}
+
+bool Enemigo::getEstadoVida()
+{
+	return _estadoVida;
+}
+
+void Enemigo::setEstadoVida(bool vida)
+{
+	_estadoVida = vida;
+}
+
+void Enemigo::setposition(sf::Vector2f pos)
+{
+	_sprite.setPosition(pos);
 }

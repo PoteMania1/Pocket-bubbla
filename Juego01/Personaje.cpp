@@ -81,7 +81,9 @@ void Personaje::update() {
 
 	if (!_estadoVida) {
 		_estadoVida = true;
-		_sprite.setPosition(0, 472);
+		if (_vida<0) {
+			_sprite.setPosition(0, 472);
+		}
 	}
 
 	//Aplica gravedad al personaje para que no quede flotando al iniciar el juego
@@ -323,15 +325,18 @@ void Personaje::respawn(sf::Vector2f pos)
 	}
 }
 
-void Personaje::controladorVida()
+void Personaje::setVidasMenos()
 {
-	_vida -= 1;
-	_sprite.setPosition(10, 600);
-	std::cout <<"Vida: " << _vida << std::endl;
-	if (_vida == 0) {
-		_puntos = 0;
-		_punto.setPuntos(_puntos);
-		std::cout << "Puntos: " << _puntos << std::endl;
+	if (_vida >= 1) {
+		_vida --;
+		std::cout <<"Vida: " << _vida << std::endl;
+	}
+}
+
+void Personaje::setVidasMas() {
+	if (_vida <= 3) {
+		_vida ++;
+		std::cout << "Vida: " << _vida << std::endl;
 	}
 }
 

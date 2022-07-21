@@ -17,18 +17,16 @@ class GamePlay : public sf::Drawable , public GamePlayable
 private:
 	sf::Music music;
 	Personaje _ash;
-	Item _fruta;
-	Item _frutas[10];
-	Nivel1 _nivel1;
-	sf::Sprite _plataformaD[25];
 	Enemigo _enemy;
 	Enemigo2 _enemy2;
+	Enemigo _enemy3;
+	Enemigo2 _enemy4;
+	Nivel1 _nivel1;
+	Item _frutas[10];
 	bool _colision;
-	//Enemigo enemy[5];   ///MUCHOS WARGREYMONES
-	sf::Vector2f _preposPlataform;
-	sf::Vector2f _preposPlataform2;
+	//sf::Vector2f _preposPlataform;
+	//sf::Vector2f _preposPlataform2;
 	std::list<Ataque> _haduken;
-	std::list<Item> _Frutas;
 	sf::SoundBuffer _bufferMonedas;
 	sf::SoundBuffer _bufferMuerte;
 	sf::SoundBuffer _bufferAtaque;
@@ -40,13 +38,18 @@ private:
 public:
 	GamePlay();
 	void cmd();
-	sf::Sprite getSprite1();
 	void update();
 	void draw(sf::RenderTarget& target, sf::RenderStates states)const override;
 	void movimientoPlataforma(sf::Sprite &plataforma, sf::Vector2f& preposs);
 	int auxMovPlataform;
 	void createBala(float positionX, float positionY, bool izqOder) override;
 	void sonidos();
+	void setVida();
+	void setPuntos();
 	void ColisionObst();
+	void ColisionesAtaque(Enemigo&, Enemigo2&);
+	void ColisionesEnemigos(Enemigo&, Enemigo2&);
+	bool GameOver();
+	int getvidas();
 };
 

@@ -12,12 +12,21 @@ void Vidas::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Vidas::setVidasMenos()
 {
-	_vidas--;
+	if (_vidas >= 1) {
+		_vidas--;
+	}
 }
 
 void Vidas::setVidasMas()
 {
-	_vidas++;
+	if (_vidas <= 3) {
+		_vidas++;
+	}
+}
+
+void Vidas::setvida(int vida)
+{
+	_vidas = vida;
 }
 
 int Vidas::getVidas()

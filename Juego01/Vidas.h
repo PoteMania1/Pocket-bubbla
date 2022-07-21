@@ -14,6 +14,7 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states)const override;
 	void setVidasMenos();
 	void setVidasMas();
+	void setvida(int vida);
 	int getVidas();
 	void Update();
 

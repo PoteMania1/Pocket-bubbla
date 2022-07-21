@@ -29,6 +29,10 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states)const override;
 	void setPuntos(int puntos);
 	void setVidas(int vidas);
+	void setSpriteVidas();
 	void Update();
+	std::string toString();
+	bool LeerDeDisco(int nroRegistro);
+	bool GuardarEnDisco(int nroRegistro);
 };
 

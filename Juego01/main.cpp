@@ -3,6 +3,8 @@
 #include <ctime>
 #include "GamePlay.h"
 #include "MainMenu.h"
+#include "Vidas.h"
+#include <list>
 
 
 int main()
@@ -13,13 +15,20 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 600), "Pocket Bubbla!");
     window.setFramerateLimit(60);
     MainMenu mainmenu(800, 600);
+    GamePlay game;
+    //Vidas vida;
+    int inicio = 0;
     bool play = false;
     bool status = false;
-    GamePlay game;
+
 
     //Game Loop (update del juego)
     while (window.isOpen())
     {
+        if (!play) {
+            game.setVida();
+            game.setPuntos();
+        }
         //ReadInput Actualiza los estados de los perifericos de entrada
         //Leer la cola de mensajes
         sf::Event event;
@@ -37,14 +46,14 @@ int main()
                 {
                 case sf::Keyboard::Up:
                     status = false;
-                    if (!status) {
+                    if (!status && !play) {
                         mainmenu.MoveUp();
                     }
                     break;
 
                 case sf::Keyboard::Down:
                     status = false;
-                    if (!status) {
+                    if (!status && !play) {
                         mainmenu.MoveDown();
                     }
                     break;
@@ -59,7 +68,7 @@ int main()
                         break;
                     case 1:
                         std::cout << "Option button has been pressed" << std::endl;
-                        status = true;
+                        //status = true;
                         break;
                     case 2:
                         std::cout << "about button has been pressed" << std::endl;
@@ -84,14 +93,16 @@ int main()
         }
 
         // CMD - Joy
-        if (play) {
+        if (play && game.GameOver() == false) {
             game.cmd();
         }
         // Update - Actualiza los estados del juego
-        if (play) {
+        if (play && game.GameOver() == false) {
             game.update();
         }
-
+        if (game.GameOver()) {
+                play = false; 
+        }
 
         window.clear();
 
@@ -100,13 +111,12 @@ int main()
             mainmenu.draw(window,status);
             //mainmenu.SonidoFondo(play);
         }
-        if(play){
+        if(play && game.GameOver()==false){
             window.draw(game);
         }
 
         // Display - Flip
         window.display();
-
 
     }
 
