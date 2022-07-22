@@ -291,10 +291,7 @@ void GamePlay::ColisionesAtaque(Enemigo& e, Enemigo2& e2)
 bool GamePlay::GameOver()
 {
 	if (_vidas.getVidas() == 0) {
-		_ash.setVidasMas();
-		_ash.setVidasMas();
-		_ash.setVidasMas();
-		_ash.setVidasMas();
+		
 		return true;
 	}
 	return false;
@@ -322,6 +319,11 @@ void GamePlay::ColisionesEnemigos(Enemigo& e, Enemigo2& e2)
 int GamePlay::getvidas()
 {
 	return _vidas.getVidas();
+}
+
+int GamePlay::getpuntos()
+{
+	return _puntos.getPuntos();
 }
 
 

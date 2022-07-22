@@ -28,8 +28,6 @@ Personaje::Personaje(GamePlayable& gameplay)  :_gameplay(gameplay) {
 	_bufferPasos.loadFromFile("Sounds/Ash/Pasos.wav");
 	_bufferAtaque.loadFromFile("Sounds/Ash/Ataque.wav");
 	_bufferSalto1.loadFromFile("Sounds/Ash/Salto1.wav");
-	//_bufferSalto2.loadFromFile("Sounds/Ash/Salto2.wav");
-	//_bufferSalto3.loadFromFile("Sounds/Ash/Salto3.wav");
 	inicioJuego = 0;
 	_cooldown = 0;
 	_estadoVida = true;
@@ -81,6 +79,7 @@ void Personaje::update() {
 
 	if (!_estadoVida) {
 		_estadoVida = true;
+		_sprite.setPosition(0, 472);
 		if (_vida<0) {
 			_sprite.setPosition(0, 472);
 		}
@@ -260,7 +259,7 @@ void Personaje::update() {
 	if (_sprite.getGlobalBounds().top + _sprite.getGlobalBounds().height > 590) {
 		_sprite.setPosition(_sprite.getPosition().x, 590 + (_sprite.getGlobalBounds().height - _sprite.getOrigin().y));
 		_estado = ESTADOS_PERSONAJE::QUIETO;
-	} 
+	}
 	//colisiones obst
 	
 }
@@ -374,4 +373,3 @@ GamePlayable& Personaje::getCurrentGamePlay()
 {
 	return _gameplay;
 }
-

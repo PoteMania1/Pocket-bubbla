@@ -1,4 +1,7 @@
-﻿  GamePlay.cpp
-  main.cpp
-  Generando código...
+﻿  Personaje.cpp
+C:\Users\Usuario1\Desktop\Pocket-bubbla\Juego01\Personaje.cpp(110,17): warning C4305: '+=': truncamiento de 'double' a 'float'
+C:\Users\Usuario1\Desktop\Pocket-bubbla\Juego01\Personaje.cpp(124,18): warning C4305: '+=': truncamiento de 'double' a 'float'
+C:\Users\Usuario1\Desktop\Pocket-bubbla\Juego01\Personaje.cpp(148,18): warning C4305: '+=': truncamiento de 'double' a 'float'
+C:\Users\Usuario1\Desktop\Pocket-bubbla\Juego01\Personaje.cpp(167,18): warning C4305: '+=': truncamiento de 'double' a 'float'
+C:\Users\Usuario1\Desktop\Pocket-bubbla\Juego01\Personaje.cpp(230,18): warning C4305: '+=': truncamiento de 'double' a 'float'
   Juego01.vcxproj -> C:\Users\Usuario1\Desktop\Pocket-bubbla\Juego01\x64\Debug\Juego01.exe

@@ -51,5 +51,6 @@ public:
 	void ColisionesEnemigos(Enemigo&, Enemigo2&);
 	bool GameOver();
 	int getvidas();
+	int getpuntos();
 };
 

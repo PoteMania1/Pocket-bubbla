@@ -82,32 +82,3 @@ void Hud::Update()
 	setSpriteVidas();
 }
 
-/*std::string Hud::toString() {
-	std::string result;
-	result ="Puntos: " + std::to_string(_realpuntos) + "| Vidas: " + std::to_string(_realvidas);
-	return result;
-}
-
-bool Hud::LeerDeDisco(int nroRegistro)
-{
-	FILE* p = fopen("Score.dat", "rb");
-	if (p == NULL) {
-		return false;
-	}
-	fseek(p, nroRegistro * sizeof(Hud), SEEK_SET);
-	bool ok = fread(this, sizeof(Hud), 1, p);
-	fclose(p);
-	return ok;
-}
-
-bool Hud::GuardarEnDisco(int nroRegistro)
-{
-	FILE* p = fopen("Score.dat", "rb+");
-	if (p == NULL) {
-		return false;
-	}
-	fseek(p, nroRegistro * sizeof(Hud), SEEK_SET);
-	bool guardo = fwrite(this, sizeof(Hud), 1, p);
-	fclose(p);
-	return guardo;
-}*/

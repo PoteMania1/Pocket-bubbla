@@ -23,10 +23,10 @@ MainMenu::MainMenu(float ancho, float alto)
 	_mainMenu[0].setOrigin(_mainMenu[0].getGlobalBounds().width / 2,
 		_mainMenu[0].getGlobalBounds().height / 2);
 	_mainMenu[0].setPosition(710, 200);
-	//Options
+	//Score
 	_mainMenu[1].setFont(_font);
 	_mainMenu[1].setFillColor(sf::Color::White);
-	_mainMenu[1].setString("Options");
+	_mainMenu[1].setString("Score");
 	_mainMenu[1].setCharacterSize(30);
 	_mainMenu[1].setOrigin(_mainMenu[1].getGlobalBounds().width / 2,
 		_mainMenu[1].getGlobalBounds().height / 2);
@@ -62,9 +62,14 @@ MainMenu::MainMenu(float ancho, float alto)
 	//Creditos
 	_textureCred.loadFromFile("Assets/Menu/Creditos.png");
 	_creditos.setTexture(_textureCred);
+
+	//Score
+	_textureScore.loadFromFile("Assets/Menu/Fondo.png");
+	_score.setTexture(_textureScore);
+
 }
 
-void MainMenu::draw(sf::RenderTarget& window,bool status)
+void MainMenu::draw(sf::RenderTarget& window,bool status,bool score)
 {
 	//if(!status){
 		//window.clear();
@@ -76,6 +81,15 @@ void MainMenu::draw(sf::RenderTarget& window,bool status)
 	
 	if (status) {
 		window.draw(_creditos);
+	}
+
+	if (score) {
+		window.draw(_score);
+		CargarScore();
+		for (int x = 0; x < 10; x++) {
+			window.draw(_Score[x]);
+			//std::cout << hud[x].toString() << std::endl;
+		}
 	}
 }
 
@@ -132,4 +146,68 @@ void MainMenu::SonidoFondo()
 void MainMenu::Stop()
 {
 	music.stop();
+}
+
+void MainMenu::CargarScore()
+{
+	for (int x = 0; x < 10; x++) {
+		/*if (Score[x].LeerDeDisco(x)) {
+			_Score[x].setFont(_font);
+			_Score[x].setFillColor(sf::Color::White);
+			_Score[x].setString(Score[x].toString());
+			_Score[x].setCharacterSize(15);
+			//_hud[x].setOrigin(_hud[x].getGlobalBounds().width / 2,
+				//_hud[x].getGlobalBounds().height / 2);
+			_Score[x].setPosition(350, 20 * x);
+		}*/
+		if (Score.LeerDeDisco(x)) {
+			if (Score.getPuntos() > puntos[0]) {
+				puntos[0] = Score.getPuntos();
+				break;
+			}
+			else if (Score.getPuntos() > puntos[1]) {
+				puntos[1] = Score.getPuntos();
+				break;
+			}
+			else if (Score.getPuntos() > puntos[2]) {
+				puntos[2] = Score.getPuntos();
+				break;
+			}
+			else if (Score.getPuntos() > puntos[3]) {
+				puntos[3] = Score.getPuntos();
+				break;
+			}
+			else if (Score.getPuntos() > puntos[4]) {
+				puntos[4] = Score.getPuntos();
+				break;
+			}
+			else if (Score.getPuntos() > puntos[5]) {
+				puntos[5] = Score.getPuntos();
+				break;
+			}
+			else if (Score.getPuntos() > puntos[6]) {
+				puntos[6] = Score.getPuntos();
+				break;
+			}
+			else if (Score.getPuntos() > puntos[7]) {
+				puntos[7] = Score.getPuntos();
+				break;
+			}
+			else if (Score.getPuntos() > puntos[8]) {
+				puntos[8] = Score.getPuntos();
+				break;
+			}
+			else if (Score.getPuntos() > puntos[9]) {
+				puntos[9] = Score.getPuntos();
+				break;
+			}
+		}
+		_Score[x].setFont(_font);
+		_Score[x].setFillColor(sf::Color::White);
+		_Score[x].setString(std::to_string(puntos[x]));
+		_Score[x].setCharacterSize(15);
+		//_hud[x].setOrigin(_hud[x].getGlobalBounds().width / 2,
+			//_hud[x].getGlobalBounds().height / 2);
+		_Score[x].setPosition(350, 20 * x);
+	}
 }

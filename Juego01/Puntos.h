@@ -15,6 +15,9 @@ public:
 	void setPuntos(int puntos);
 	void setPuntosHud(int &puntos);
 	void Update();
+	std::string toString();
+	bool LeerDeDisco(int nroRegistro);
+	bool GuardarEnDisco();
 	~Puntos();
 };
 

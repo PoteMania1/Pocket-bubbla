@@ -31,8 +31,5 @@ public:
 	void setVidas(int vidas);
 	void setSpriteVidas();
 	void Update();
-	std::string toString();
-	bool LeerDeDisco(int nroRegistro);
-	bool GuardarEnDisco(int nroRegistro);
 };
 

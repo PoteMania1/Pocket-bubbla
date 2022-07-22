@@ -16,24 +16,28 @@ int main()
     window.setFramerateLimit(60);
     MainMenu mainmenu(800, 600);
     GamePlay game;
+    Puntos puntos;
     //Vidas vida;
     int inicio = 0;
+    int x = 0;
     bool play = false;
     bool status = false;
+    bool score = false;
 
 
     //Game Loop (update del juego)
     while (window.isOpen())
     {
-        if (!play) {
-            game.setVida();
-            game.setPuntos();
-        }
         //ReadInput Actualiza los estados de los perifericos de entrada
         //Leer la cola de mensajes
         sf::Event event;
         while (window.pollEvent(event))
         {
+            if (!play) {
+                x = 0;
+                game.setVida();
+                game.setPuntos();
+            }
             if (event.type == sf::Event::Closed)
                 window.close();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
@@ -46,14 +50,16 @@ int main()
                 {
                 case sf::Keyboard::Up:
                     status = false;
-                    if (!status && !play) {
+                    score = false;
+                    if (!status && !play && !score) {
                         mainmenu.MoveUp();
                     }
                     break;
 
                 case sf::Keyboard::Down:
                     status = false;
-                    if (!status && !play) {
+                    score = false;
+                    if (!status && !play && !score) {
                         mainmenu.MoveDown();
                     }
                     break;
@@ -67,8 +73,8 @@ int main()
                         mainmenu.Stop();
                         break;
                     case 1:
-                        std::cout << "Option button has been pressed" << std::endl;
-                        //status = true;
+                        std::cout << "Score button has been pressed" << std::endl;
+                        score = true;
                         break;
                     case 2:
                         std::cout << "about button has been pressed" << std::endl;
@@ -99,16 +105,20 @@ int main()
         // Update - Actualiza los estados del juego
         if (play && game.GameOver() == false) {
             game.update();
-        }
-        if (game.GameOver()) {
+            if (game.GameOver() && x == 0) {
+                puntos.setPuntos(game.getpuntos());
+                std::cout << puntos.getPuntos() << "\n";
+                puntos.GuardarEnDisco();
                 play = false; 
+                x++;
+            }
         }
 
         window.clear();
 
         // Draw
         if(!play){
-            mainmenu.draw(window,status);
+            mainmenu.draw(window,status,score);
             //mainmenu.SonidoFondo(play);
         }
         if(play && game.GameOver()==false){
